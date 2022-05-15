@@ -1,7 +1,7 @@
-package com.devteam.marketing.domain.usr.api;
+package com.devteam.marketing.domain.agree.api;
 
 import com.devteam.marketing.domain.ResponseDto;
-import com.devteam.marketing.domain.usr.service.UsrService;
+import com.devteam.marketing.domain.agree.service.AgreeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,19 +11,17 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collections;
 
 @RequiredArgsConstructor
-@RequestMapping("/usr")
+@RequestMapping(value = "/agree")
 @RestController
-public class UsrApi {
+public class AgreeApi {
 
-    private final UsrService usrService;
+    private final AgreeService agreeService;
 
     @GetMapping(value = "/findAllToSimple")
     public ResponseEntity<?> findAllToSimple() {
-        return ResponseEntity.ok().body(
-                ResponseDto.builder()
-                        .data(Collections.singletonList(usrService.findAllToSimple()))
-                        .build());
+        return ResponseEntity.ok().body(ResponseDto.builder()
+                .data(Collections.singletonList(agreeService.findAllToSimple()))
+                .build());
     }
-
 
 }

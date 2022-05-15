@@ -1,4 +1,4 @@
-package com.devteam.marketing.domain.usr.entity;
+package com.devteam.marketing.domain.usr.root.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
