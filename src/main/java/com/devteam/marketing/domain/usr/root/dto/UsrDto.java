@@ -3,11 +3,14 @@ package com.devteam.marketing.domain.usr.root.dto;
 import com.devteam.marketing.domain.BaseDto;
 import com.devteam.marketing.domain.usr.agree.dto.UsrAgreeDto;
 import com.devteam.marketing.domain.usr.agree.entity.UsrAgree;
+import com.devteam.marketing.domain.usr.root.entity.Social;
 import com.devteam.marketing.domain.usr.root.entity.Usr;
 import com.devteam.marketing.domain.usr.root.mapper.UsrMapper;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +18,9 @@ import java.util.stream.Collectors;
 public class UsrDto extends BaseDto {
 
     private Long id;
+
+    @Enumerated(EnumType.STRING)
+    private Social social;
 
     private String email;
 
@@ -27,6 +33,13 @@ public class UsrDto extends BaseDto {
     //프로필 이미지
 
     private Boolean useYn;
+
+    @Getter @Setter
+    public static class Insert extends UsrDto {
+
+        private List<UsrAgreeDto.Insert> usrAgrees;
+
+    }
 
     @Getter @Setter
     public static class Simple extends UsrDto {

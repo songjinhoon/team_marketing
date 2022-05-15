@@ -2,6 +2,7 @@ package com.devteam.marketing.domain.usr.root.entity;
 
 import com.devteam.marketing.domain.BaseEntity;
 import com.devteam.marketing.domain.usr.agree.entity.UsrAgree;
+import com.devteam.marketing.domain.usr.root.dto.UsrDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,6 +20,9 @@ public class Usr extends BaseEntity {
     @Column(name = "usr_id")
     private Long id;
 
+    @Enumerated(EnumType.STRING)
+    private Social social;
+
     private String email;
 
     private String pwd;
@@ -34,6 +38,19 @@ public class Usr extends BaseEntity {
     @OneToMany(mappedBy = "usr", cascade = CascadeType.ALL)
     private List<UsrAgree> usrAgrees = new ArrayList<>();
 
+    public static Usr create(UsrDto.Insert usrDto) {
+        return Usr.builder()
+                .social(usrDto.getSocial())
+                .email(usrDto.getEmail())
+                .pwd(usrDto.getPwd())
+                .nm(usrDto.getNm())
+                .phNum(usrDto.getPhNum())
+                .useYn(usrDto.getUseYn())
+                .build();
+    }
 
-
+    /*public void addUsrAgrees(UsrAgree usrAgree) {
+        usrAgrees.add(usrAgree);
+        usrAgree.setUsr(this);
+    }*/
 }

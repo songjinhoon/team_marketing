@@ -2,8 +2,10 @@ package com.devteam.marketing.domain.usr.agree.dto;
 
 import com.devteam.marketing.domain.BaseDto;
 import com.devteam.marketing.domain.agree.dto.AgreeDto;
+import com.devteam.marketing.domain.agree.entity.Agree;
 import com.devteam.marketing.domain.usr.agree.entity.UsrAgree;
 import com.devteam.marketing.domain.usr.agree.mapper.UsrAgreeMapper;
+import com.devteam.marketing.domain.usr.root.entity.Usr;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +18,17 @@ public class UsrAgreeDto extends BaseDto {
     private Long id;
 
     private Boolean agreeYn;
+
+    @Getter @Setter
+    public static class Insert extends UsrAgreeDto {
+
+        private Usr usr;
+
+        private Agree agree;
+
+        private Long agreeId;
+
+    }
 
     @Getter @Setter
     public static class WithAgree extends UsrAgreeDto {

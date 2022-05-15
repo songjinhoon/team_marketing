@@ -2,8 +2,10 @@ package com.devteam.marketing.domain.usr.root.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 public enum Social {
 

@@ -2,6 +2,7 @@ package com.devteam.marketing.domain.usr.agree.entity;
 
 import com.devteam.marketing.domain.BaseEntity;
 import com.devteam.marketing.domain.agree.entity.Agree;
+import com.devteam.marketing.domain.usr.agree.dto.UsrAgreeDto;
 import com.devteam.marketing.domain.usr.root.entity.Usr;
 import lombok.*;
 
@@ -27,5 +28,17 @@ public class UsrAgree extends BaseEntity {
     private Agree agree;
 
     private Boolean agreeYn;
+
+    public static UsrAgree create(UsrAgreeDto.Insert usrAgreeDto) {
+        return UsrAgree.builder()
+                .usr(usrAgreeDto.getUsr())
+                .agree(usrAgreeDto.getAgree())
+                .agreeYn(usrAgreeDto.getAgreeYn())
+                .build();
+    }
+
+//    public void setUsr(Usr usr) {
+//        this.usr = usr;
+//    }
 
 }

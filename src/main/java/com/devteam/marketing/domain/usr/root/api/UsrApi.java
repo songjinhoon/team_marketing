@@ -1,13 +1,11 @@
 package com.devteam.marketing.domain.usr.root.api;
 
 import com.devteam.marketing.domain.ResponseDto;
+import com.devteam.marketing.domain.usr.root.dto.UsrDto;
 import com.devteam.marketing.domain.usr.root.service.UsrService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 
@@ -31,6 +29,14 @@ public class UsrApi {
         return ResponseEntity.ok().body(
                 ResponseDto.builder()
                         .data(Collections.singletonList(usrService.findByIdWithAgree(id)))
+                        .build());
+    }
+
+    @PostMapping(value = "/saveWithAgree")
+    private ResponseEntity<?> save(@RequestBody UsrDto.Insert usrDto) {
+        return ResponseEntity.ok().body(
+                ResponseDto.builder()
+                        .data(Collections.singletonList(usrService.saveWithAgree(usrDto)))
                         .build());
     }
 
