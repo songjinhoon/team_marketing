@@ -1,0 +1,3 @@
+insert into usr (email, pwd, nm, ph_num, use_at, rgs_dt, upd_dt) values ('hijinhoon@naver.com', 'admin', '관리자', '01050188147', true, now(), now());
+insert into usr (email, pwd, nm, ph_num, use_at, rgs_dt, upd_dt) values ('hijinhoon1@naver.com', 'admin', '관리자1', '01050188147', true, now(), now());
+insert into usr (email, pwd, nm, ph_num, use_at, rgs_dt, upd_dt) values ('hijinhoon2@naver.com', 'admin', '관리자2', '01050188147', true, now(), now());
