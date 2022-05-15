@@ -21,7 +21,7 @@ public class Agree extends BaseEntity {
 
     private String text;
 
-    private Boolean useAt;
+    private Boolean useYn;
 
     @OneToMany(mappedBy = "agree", cascade = CascadeType.ALL)
     private List<UsrAgree> usrAgrees = new ArrayList<>();

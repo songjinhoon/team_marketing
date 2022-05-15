@@ -29,7 +29,7 @@ public class Usr extends BaseEntity {
 
     //프로필 이미지
 
-    private Boolean useAt;
+    private Boolean useYn;
 
     @OneToMany(mappedBy = "usr", cascade = CascadeType.ALL)
     private List<UsrAgree> usrAgrees = new ArrayList<>();

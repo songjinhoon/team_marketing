@@ -26,7 +26,7 @@ public class UsrDto extends BaseDto {
 
     //프로필 이미지
 
-    private Boolean useAt;
+    private Boolean useYn;
 
     @Getter @Setter
     public static class Simple extends UsrDto {

@@ -16,7 +16,7 @@ public class AgreeDto extends BaseDto {
 
     private String text;
 
-    private Boolean useAt;
+    private Boolean useYn;
 
     @Getter @Setter
     public static class Simple extends AgreeDto {
