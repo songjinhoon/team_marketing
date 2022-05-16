@@ -1,4 +1,4 @@
-insert into usr (social, email, pwd, nm, ph_num, use_yn, rgs_dt, upd_dt) values ('KAKAO' ,'hijinhoon@naver.com', 'admin', '관리자', '01050188147', true, now(), now());
+insert into usr (social, email, pwd, nm, ph_num, use_yn, rgs_dt, upd_dt) values ('NONE' ,'hijinhoon@naver.com', 'admin', '관리자', '01050188147', true, now(), now());
 insert into usr (social, email, pwd, nm, ph_num, use_yn, rgs_dt, upd_dt) values ('NAVER' ,'hijinhoon1@naver.com', 'admin', '관리자1', '01050188147', true, now(), now());
 insert into usr (social, email, pwd, nm, ph_num, use_yn, rgs_dt, upd_dt) values ('GOOGLE' ,'hijinhoon2@naver.com', 'admin', '관리자2', '01050188147', true, now(), now());
 

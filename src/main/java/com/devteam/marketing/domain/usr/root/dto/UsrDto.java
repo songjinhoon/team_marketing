@@ -67,4 +67,13 @@ public class UsrDto extends BaseDto {
 
     }
 
+    @Getter @Setter
+    public static class Mail {
+
+        private String email;
+
+        private String link;
+
+    }
+
 }

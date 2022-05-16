@@ -2,6 +2,7 @@ package com.devteam.marketing.domain;
 
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -9,8 +10,13 @@ import java.util.List;
 @Builder @Getter @Setter
 public class ResponseDto<T> {
 
-    private String error;
+    @Builder.Default
+    private Boolean error = false;
 
-    private List<T> data;
+    @Builder.Default
+    private List<T> data = new ArrayList<>();
+
+    @Builder.Default
+    private String text = "";
 
 }

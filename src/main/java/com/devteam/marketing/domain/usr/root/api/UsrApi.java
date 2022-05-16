@@ -40,5 +40,15 @@ public class UsrApi {
                         .build());
     }
 
+    @PostMapping(value = "/findPwd")
+    private ResponseEntity<?> findPwd(@RequestBody UsrDto.Mail usrDto) {
+        final String returnValue = usrService.findPwd(usrDto);
+        return ResponseEntity.ok().body(
+                ResponseDto.builder()
+                        .error(!returnValue.equals("success"))
+                        .text(returnValue.equals("fail") ? "내부 시스템 오류" : returnValue)
+                        .build());
+    }
+
 
 }

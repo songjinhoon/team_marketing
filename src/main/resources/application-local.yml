@@ -22,3 +22,8 @@ spring:
 
 logging.level:
   org.hibernate.SQL: debug
+
+env:
+  google:
+    id: jinhoon0319@gmail.com  #MainConfig usename이랑 일단 일치 ㄱㄱ
+

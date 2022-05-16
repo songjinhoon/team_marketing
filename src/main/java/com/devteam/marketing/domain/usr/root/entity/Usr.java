@@ -42,11 +42,15 @@ public class Usr extends BaseEntity {
         return Usr.builder()
                 .social(usrDto.getSocial())
                 .email(usrDto.getEmail())
-                .pwd(usrDto.getPwd())
+                .pwd(usrDto.getSocial().equals(Social.NONE) ? null : usrDto.getPwd())
                 .nm(usrDto.getNm())
                 .phNum(usrDto.getPhNum())
                 .useYn(usrDto.getUseYn())
                 .build();
+    }
+
+    public static Usr empty() {
+        return Usr.builder().build();
     }
 
     /*public void addUsrAgrees(UsrAgree usrAgree) {
