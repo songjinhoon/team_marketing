@@ -63,23 +63,22 @@ public class UsrApi {
                         .build());
     }
 
-    /* 비밀번호 변경 */
-    @PutMapping(value = "/updatePwd/{id}")
-    public ResponseEntity<?> updatePwd(@PathVariable Long id, @RequestBody UsrDto.UpdatePwd usrDto) {
-        final UsrDto.Simple simple = usrService.updatePwd(id, usrDto);
-        if (simple.getId() == null) {
+    /* 업데이트 
+    *  추후 비밀번호랑 닉네임등 업데이트 화면에따라 기능좀바꿔야함
+    * */
+    @PutMapping(value = "/update/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody UsrDto.Update usrDto) {
+        final UsrDto data = usrService.update(id, usrDto);
+        if (data instanceof UsrDto.Error) {
             return ResponseEntity.ok().body(
                     ResponseDto.builder()
                             .error(true)
-                            .message("data not found")
-                            .build());
-        } else {
-            return ResponseEntity.ok().body(
-                    ResponseDto.builder()
-                            .data(Collections.singletonList(simple))
+                            .message(((UsrDto.Error) data).getMessage())
                             .build());
         }
+        return ResponseEntity.ok().body(
+                ResponseDto.builder()
+                        .data(Collections.singletonList(data))
+                        .build());
     }
-
-
 }

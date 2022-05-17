@@ -81,11 +81,28 @@ public class UsrService {
                 .build());
     }
 
-    public UsrDto.Simple updatePwd(Long id, UsrDto.UpdatePwd usrDto) {
-        Optional<Usr> usr = usrRepository.findById(id);
-        usr.ifPresent(data -> {
-            data.updatePwd(usrDto.getPwd());
-        });
-        return UsrDto.Simple.of(usr.orElseGet(Usr::empty));
+    public UsrDto update(Long id, UsrDto.Update usrDto) {
+        final Optional<Usr> optional = usrRepository.findById(id);
+        if (optional.isEmpty()) {
+            return UsrDto.Error.builder()
+                    .message("data not found error")
+                    .build();
+        }
+        final Usr usr = optional.get();
+        if (!usr.getSocial().equals(Social.NONE)) {
+            return UsrDto.Error.builder()
+                    .message("this account social login error")
+                    .build();
+        }
+        if (!usrDto.getPrevPwd().equals(usr.getPwd())) {
+            return UsrDto.Error.builder()
+                    .message("password mismatch error")
+                    .build();
+        }
+        usr.updatePwd(usrDto.getNextPwd());
+        usr.updateNm(usrDto.getNm());
+        return UsrDto.Simple.of(usr);
     }
+
+
 }

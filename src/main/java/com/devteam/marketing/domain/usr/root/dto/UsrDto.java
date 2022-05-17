@@ -6,6 +6,7 @@ import com.devteam.marketing.domain.usr.agree.entity.UsrAgree;
 import com.devteam.marketing.domain.usr.root.entity.Social;
 import com.devteam.marketing.domain.usr.root.entity.Usr;
 import com.devteam.marketing.domain.usr.root.mapper.UsrMapper;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -83,9 +84,20 @@ public class UsrDto extends BaseDto {
     }
 
     @Getter @Setter
-    public static class UpdatePwd {
+    public static class Update {
 
-        private String pwd;
+        private String nm;
+
+        private String prevPwd;
+
+        private String nextPwd;
+
+    }
+
+    @Getter @Setter @Builder
+    public static class Error extends UsrDto {
+
+        private String message;
 
     }
 }

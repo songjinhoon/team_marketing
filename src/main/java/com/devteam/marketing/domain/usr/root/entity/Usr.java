@@ -57,6 +57,10 @@ public class Usr extends BaseEntity {
         this.pwd = pwd;
     }
 
+    public void updateNm (String nm) {
+        this.nm = nm;
+    }
+
     /*public void addUsrAgrees(UsrAgree usrAgree) {
         usrAgrees.add(usrAgree);
         usrAgree.setUsr(this);
