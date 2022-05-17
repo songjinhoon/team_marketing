@@ -17,6 +17,6 @@ public class ResponseDto<T> {
     private List<T> data = new ArrayList<>();
 
     @Builder.Default
-    private String text = "";
+    private String message = "";
 
 }

@@ -65,6 +65,12 @@ public class UsrDto extends BaseDto {
             return withAgree;
         }
 
+        public static WithAgree empty() {
+            return new WithAgree();
+        }
+
+
+
     }
 
     @Getter @Setter
@@ -76,4 +82,10 @@ public class UsrDto extends BaseDto {
 
     }
 
+    @Getter @Setter
+    public static class UpdatePwd {
+
+        private String pwd;
+
+    }
 }

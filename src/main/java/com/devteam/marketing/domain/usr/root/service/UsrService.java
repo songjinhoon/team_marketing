@@ -13,12 +13,15 @@ import com.devteam.marketing.external.service.MailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class UsrService {
@@ -42,7 +45,7 @@ public class UsrService {
 
     public UsrDto.WithAgree findByIdWithAgree(Long id) {
         final List<UsrAgree> usrAgrees = usrAgreeRepository.findByUsrIdToDetail(id);
-        return UsrDto.WithAgree.of(usrAgrees.get(0).getUsr(), usrAgrees);
+        return usrAgrees.size() == 0 ? UsrDto.WithAgree.empty() : UsrDto.WithAgree.of(usrAgrees.get(0).getUsr(), usrAgrees);
     }
 
     public UsrDto.WithAgree saveWithAgree(UsrDto.Insert usrDto) {
@@ -61,9 +64,9 @@ public class UsrService {
         return UsrDto.WithAgree.of(usrAgrees.get(0).getUsr(), usrAgrees);
     }
 
-    public String findPwd(UsrDto.Mail usrDto) {
+    public String resetPwdLink(UsrDto.Mail usrDto) {
         final Usr usr = usrRepository.findByEmail(usrDto.getEmail()).orElseGet(Usr::empty);
-        if (ObjectUtils.isArray(usr)) {
+        if (ObjectUtils.isEmpty(usr)) {
             return "계정을 확인해주세요.";
         }
         if (!usr.getSocial().equals(Social.NONE)) {
@@ -76,5 +79,13 @@ public class UsrService {
                 .text(usrDto.getLink())
                 .subject(SUBJECT)
                 .build());
+    }
+
+    public UsrDto.Simple updatePwd(Long id, UsrDto.UpdatePwd usrDto) {
+        Optional<Usr> usr = usrRepository.findById(id);
+        usr.ifPresent(data -> {
+            data.updatePwd(usrDto.getPwd());
+        });
+        return UsrDto.Simple.of(usr.orElseGet(Usr::empty));
     }
 }

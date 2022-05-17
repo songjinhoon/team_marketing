@@ -26,12 +26,22 @@ public class UsrApi {
 
     @GetMapping(value = "/findByIdWithAgree/{id}")
     private ResponseEntity<?> findByIdWithAgree(@PathVariable Long id) {
-        return ResponseEntity.ok().body(
-                ResponseDto.builder()
-                        .data(Collections.singletonList(usrService.findByIdWithAgree(id)))
-                        .build());
+        final UsrDto.WithAgree usrDto = usrService.findByIdWithAgree(id);
+        if (usrDto.getId() == null) {
+            return ResponseEntity.ok().body(
+                    ResponseDto.builder()
+                            .error(true)
+                            .message("data not found")
+                            .build());
+        } else {
+            return ResponseEntity.ok().body(
+                    ResponseDto.builder()
+                            .data(Collections.singletonList(usrDto))
+                            .build());
+        }
     }
 
+    /* 회원가입 */
     @PostMapping(value = "/saveWithAgree")
     private ResponseEntity<?> save(@RequestBody UsrDto.Insert usrDto) {
         return ResponseEntity.ok().body(
@@ -40,14 +50,35 @@ public class UsrApi {
                         .build());
     }
 
-    @PostMapping(value = "/findPwd")
-    private ResponseEntity<?> findPwd(@RequestBody UsrDto.Mail usrDto) {
-        final String returnValue = usrService.findPwd(usrDto);
+    /* 비밀번호 재설정링크 --> 작업은 했지만 잘못된거같음
+    *  이유: 백단에서는 email 존재 여부를 체크 후 반환만하고 메일전송은 프론트에서 해야 rest api인듯
+    * */
+    @PostMapping(value = "/resetPwdLink")
+    private ResponseEntity<?> resetPwdLink(@RequestBody UsrDto.Mail usrDto) {
+        final String returnValue = usrService.resetPwdLink(usrDto);
         return ResponseEntity.ok().body(
                 ResponseDto.builder()
                         .error(!returnValue.equals("success"))
-                        .text(returnValue.equals("fail") ? "내부 시스템 오류" : returnValue)
+                        .message(returnValue.equals("fail") ? "내부 시스템 오류" : returnValue)
                         .build());
+    }
+
+    /* 비밀번호 변경 */
+    @PutMapping(value = "/updatePwd/{id}")
+    public ResponseEntity<?> updatePwd(@PathVariable Long id, @RequestBody UsrDto.UpdatePwd usrDto) {
+        final UsrDto.Simple simple = usrService.updatePwd(id, usrDto);
+        if (simple.getId() == null) {
+            return ResponseEntity.ok().body(
+                    ResponseDto.builder()
+                            .error(true)
+                            .message("data not found")
+                            .build());
+        } else {
+            return ResponseEntity.ok().body(
+                    ResponseDto.builder()
+                            .data(Collections.singletonList(simple))
+                            .build());
+        }
     }
 
 

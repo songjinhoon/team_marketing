@@ -53,6 +53,10 @@ public class Usr extends BaseEntity {
         return Usr.builder().build();
     }
 
+    public void updatePwd (String pwd) {
+        this.pwd = pwd;
+    }
+
     /*public void addUsrAgrees(UsrAgree usrAgree) {
         usrAgrees.add(usrAgree);
         usrAgree.setUsr(this);
