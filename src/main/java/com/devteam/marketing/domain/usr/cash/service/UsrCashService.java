@@ -38,7 +38,7 @@ public class UsrCashService {
                     .message("limit excess error")
                     .build();
         }
-
+        em.flush();
         return UsrCashDto.Detail.of(usrCash);
     }
 

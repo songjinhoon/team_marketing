@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,14 +64,14 @@ public class UsrService {
     }
 
     public String resetPwdLink(UsrDto.Mail usrDto) {
-        final Usr usr = usrRepository.findByEmail(usrDto.getEmail()).orElseGet(Usr::empty);
-        if (ObjectUtils.isEmpty(usr)) {
+        final Optional<Usr> optional = usrRepository.findByEmail(usrDto.getEmail());
+        if (optional.isEmpty()) {
             return "계정을 확인해주세요.";
         }
+        final Usr usr = optional.get();
         if (!usr.getSocial().equals(Social.NONE)) {
             return usr.getSocial().getValue() + " 비밀번호 찾기를 이용해주세요.";
         }
-
         return mailService.send(MailDto.builder()
                 .to(usrDto.getEmail())
                 .from(GOOGLE_ID)
