@@ -72,7 +72,7 @@ public class UsrCashService {
         final UsrCashLog usrCashLog = UsrCashLog.create(UsrCashLogDto.Insert.builder()
                 .usrId(usrCashDto.getUsrId())
                 .orderNum("" + usrCashDto.getUsrId() + usrCash.getId() + System.currentTimeMillis())
-                .occurType(OccurType.CHARGING_COMPLETE)
+                .occurType(usrCashDto.getCashType().equals(CashType.CHARGING) ? OccurType.CHARGING_COMPLETE : OccurType.SAVING_COMPLETE)
                 .occurCash(usrCashDto.getChargingAmount())
                 .occurStartTime(usrCash.getRgsDt())
                 .occurFinishTime(usrCash.getRgsDt()) // 환불같은거는 처리기간 고려해야될듯?
@@ -83,8 +83,6 @@ public class UsrCashService {
                 .build());
 
         usrCashLogRepository.save(usrCashLog);
-
-        /* 이시점에 usrCash에 usr.cash 값이 궁금하다 */
 
         return UsrCashDto.Detail.of(usrCash);
     }
