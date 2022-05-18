@@ -1,6 +1,6 @@
-insert into usr (social, email, pwd, nm, ph_num, use_yn, rgs_dt, upd_dt) values ('NONE' ,'hijinhoon@naver.com', 'admin', '관리자', '01050188147', true, now(), now());
-insert into usr (social, email, pwd, nm, ph_num, use_yn, rgs_dt, upd_dt) values ('NAVER' ,'hijinhoon1@naver.com', null, '관리자1', '01050188147', true, now(), now());
-insert into usr (social, email, pwd, nm, ph_num, use_yn, rgs_dt, upd_dt) values ('GOOGLE' ,'hijinhoon2@naver.com', null, '관리자2', '01050188147', true, now(), now());
+insert into usr (social, email, pwd, nm, ph_num, cash, use_yn, rgs_dt, upd_dt) values ('NONE' ,'hijinhoon@naver.com', 'admin', '관리자', '01050188147', 0, true, now(), now());
+insert into usr (social, email, pwd, nm, ph_num, cash, use_yn, rgs_dt, upd_dt) values ('NAVER' ,'hijinhoon1@naver.com', null, '관리자1', '01050188147', 0, true, now(), now());
+insert into usr (social, email, pwd, nm, ph_num, cash, use_yn, rgs_dt, upd_dt) values ('GOOGLE' ,'hijinhoon2@naver.com', null, '관리자2', '01050188147', 0, true, now(), now());
 
 insert into agree (text, use_yn, rgs_dt, upd_dt) values ('이용약관 동의', true, now(), now());
 insert into agree (text, use_yn, rgs_dt, upd_dt) values ('개인정보 처리방침동의', true, now(), now());

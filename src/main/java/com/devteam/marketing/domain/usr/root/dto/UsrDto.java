@@ -33,6 +33,8 @@ public class UsrDto extends BaseDto {
 
     //프로필 이미지
 
+    private Integer cash;
+
     private Boolean useYn;
 
     @Getter @Setter

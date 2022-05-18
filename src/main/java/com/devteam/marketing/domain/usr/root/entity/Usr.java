@@ -2,6 +2,7 @@ package com.devteam.marketing.domain.usr.root.entity;
 
 import com.devteam.marketing.domain.BaseEntity;
 import com.devteam.marketing.domain.usr.agree.entity.UsrAgree;
+import com.devteam.marketing.domain.usr.cash.entity.UsrCash;
 import com.devteam.marketing.domain.usr.root.dto.UsrDto;
 import lombok.*;
 
@@ -33,10 +34,15 @@ public class Usr extends BaseEntity {
 
     //프로필 이미지
 
+    private Integer cash;
+
     private Boolean useYn;
 
     @OneToMany(mappedBy = "usr", cascade = CascadeType.ALL)
     private List<UsrAgree> usrAgrees = new ArrayList<>();
+
+    @OneToMany(mappedBy = "usr", cascade = CascadeType.ALL)
+    private List<UsrCash> usrCashes = new ArrayList<>();
 
     public static Usr create(UsrDto.Insert usrDto) {
         return Usr.builder()
@@ -46,6 +52,7 @@ public class Usr extends BaseEntity {
                 .nm(usrDto.getNm())
                 .phNum(usrDto.getPhNum())
                 .useYn(usrDto.getUseYn())
+                .cash(usrDto.getCash())
                 .build();
     }
 
@@ -59,6 +66,18 @@ public class Usr extends BaseEntity {
 
     public void updateNm (String nm) {
         this.nm = nm;
+    }
+
+    public boolean addUsrCash(UsrCash usrCash) {
+        if (this.cash + usrCash.getChargingAmount() <= 2000000) {
+            usrCashes.add(usrCash);
+            this.cash += usrCash.getChargingAmount();
+            usrCash.setUsr(this);
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
     /*public void addUsrAgrees(UsrAgree usrAgree) {
