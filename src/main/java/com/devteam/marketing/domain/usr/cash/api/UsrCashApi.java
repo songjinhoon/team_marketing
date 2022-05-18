@@ -16,6 +16,7 @@ public class UsrCashApi {
 
     private final UsrCashService usrCashService;
 
+    /* 충전캐쉬, 적립캐쉬 저장 */
     @PostMapping(value = "/save")
     private ResponseEntity<?> save(@RequestBody UsrCashDto.Insert usrCashDto) {
         final UsrCashDto save = usrCashService.save(usrCashDto);
@@ -30,6 +31,14 @@ public class UsrCashApi {
                 ResponseDto.builder()
                         .data(Collections.singletonList(save))
                         .build());
+    }
+
+    /* 충전캐쉬, 적립캐쉬 사용
+    *  충전캐쉬 사용후 부족한 부분 적립캐쉬로 사용
+    * */
+    @PutMapping(value = "/update")
+    private ResponseEntity<?> update() {
+        return null;
     }
 
 }

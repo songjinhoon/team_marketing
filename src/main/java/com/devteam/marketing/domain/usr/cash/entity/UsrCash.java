@@ -45,4 +45,8 @@ public class UsrCash extends BaseEntity {
         this.usr = usr;
     }
 
+    public void updateRemainingAmount(Integer remainingAmount) {
+        this.remainingAmount = remainingAmount;
+    }
+
 }

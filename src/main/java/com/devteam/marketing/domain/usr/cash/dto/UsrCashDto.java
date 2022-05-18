@@ -36,6 +36,15 @@ public class UsrCashDto extends BaseDto {
 
     }
 
+    @Getter @Setter
+    public static class Update {
+
+        private Long usrId;
+
+        private Integer cash;
+
+    }
+
     @Getter @Builder
     public static class Error extends UsrCashDto {
 
