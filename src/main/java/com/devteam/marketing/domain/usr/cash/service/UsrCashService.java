@@ -1,6 +1,11 @@
 package com.devteam.marketing.domain.usr.cash.service;
 
+import com.devteam.marketing.domain.logs.usr.cash.dto.UsrCashLogDto;
+import com.devteam.marketing.domain.logs.usr.cash.entity.OccurType;
+import com.devteam.marketing.domain.logs.usr.cash.entity.UsrCashLog;
+import com.devteam.marketing.domain.logs.usr.cash.repository.UsrCashLogRepository;
 import com.devteam.marketing.domain.usr.cash.dto.UsrCashDto;
+import com.devteam.marketing.domain.usr.cash.entity.CashType;
 import com.devteam.marketing.domain.usr.cash.entity.UsrCash;
 import com.devteam.marketing.domain.usr.cash.repository.UsrCashRepository;
 import com.devteam.marketing.domain.usr.root.entity.Usr;
@@ -10,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Transactional
@@ -17,9 +23,11 @@ import java.util.Optional;
 @Service
 public class UsrCashService {
 
+    private final UsrRepository usrRepository;
+
     private final UsrCashRepository usrCashRepository;
 
-    private final UsrRepository usrRepository;
+    private final UsrCashLogRepository usrCashLogRepository;
 
     private final EntityManager em;
 
@@ -38,7 +46,46 @@ public class UsrCashService {
                     .message("limit excess error")
                     .build();
         }
+
         em.flush();
+
+        /* 현시점 usr cash 만료 체크 후 재계산 */
+        LocalDateTime nowTime = LocalDateTime.now();
+
+        /* 현시점 남은 충전캐쉬 */
+        Integer chargingCash = usr.getUsrCashes().stream()
+                .filter(data -> data.getCashType().equals(CashType.CHARGING))
+                .filter(data -> nowTime.isBefore(data.getExpiryTime()))
+                .mapToInt(UsrCash::getRemainingAmount)
+                .sum();
+
+        /* 현시점 남은 적립캐쉬 */
+        Integer savingCash = usr.getUsrCashes().stream()
+                .filter(data -> data.getCashType().equals(CashType.SAVING))
+                .filter(data -> nowTime.isBefore(data.getExpiryTime()))
+                .mapToInt(UsrCash::getRemainingAmount)
+                .sum();
+        Integer sumCash = chargingCash + savingCash;
+        usr.updateCash(sumCash);
+
+        /* USR_CASH_LOG SAVE */
+        final UsrCashLog usrCashLog = UsrCashLog.create(UsrCashLogDto.Insert.builder()
+                .usrId(usrCashDto.getUsrId())
+                .orderNum("" + usrCashDto.getUsrId() + usrCash.getId() + System.currentTimeMillis())
+                .occurType(OccurType.CHARGING_COMPLETE)
+                .occurCash(usrCashDto.getChargingAmount())
+                .occurStartTime(usrCash.getRgsDt())
+                .occurFinishTime(usrCash.getRgsDt()) // 환불같은거는 처리기간 고려해야될듯?
+                .sumCash(sumCash)
+                .chargingCash(chargingCash)
+                .savingCash(savingCash)
+                .description("캐쉬구매")
+                .build());
+
+        usrCashLogRepository.save(usrCashLog);
+
+        /* 이시점에 usrCash에 usr.cash 값이 궁금하다 */
+
         return UsrCashDto.Detail.of(usrCash);
     }
 

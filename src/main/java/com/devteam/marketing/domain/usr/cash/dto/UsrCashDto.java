@@ -26,7 +26,7 @@ public class UsrCashDto extends BaseDto {
 
     private Integer remainingAmount;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime expiryTime;
 
     @Getter @Setter

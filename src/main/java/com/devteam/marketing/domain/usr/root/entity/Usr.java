@@ -77,6 +77,10 @@ public class Usr extends BaseEntity {
         } else {
             return false;
         }
+    }
+
+    public void updateCash(Integer cash) {
+        this.cash = cash;
 
     }
 
