@@ -37,8 +37,19 @@ public class UsrCashApi {
     *  충전캐쉬 사용후 부족한 부분 적립캐쉬로 사용
     * */
     @PutMapping(value = "/update")
-    private ResponseEntity<?> update() {
-        return null;
+    private ResponseEntity<?> update(@RequestBody UsrCashDto.Update usrCashDto) {
+        final Object update = usrCashService.update(usrCashDto);
+        if (update instanceof UsrCashDto.Error) {
+            return ResponseEntity.ok().body(
+                    ResponseDto.builder()
+                            .error(true)
+                            .message(((UsrCashDto.Error) update).getMessage())
+                            .build());
+        }
+        return ResponseEntity.ok().body(
+                ResponseDto.builder()
+                        .data(Collections.singletonList(update))
+                        .build());
     }
 
 }

@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface UsrCashRepository extends JpaRepository<UsrCash, Long> {
+public interface UsrCashRepository extends JpaRepository<UsrCash, Long>, UsrCashRepositoryCustom {
 }

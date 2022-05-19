@@ -68,15 +68,9 @@ public class Usr extends BaseEntity {
         this.nm = nm;
     }
 
-    public boolean addUsrCash(UsrCash usrCash) {
-        if (this.cash + usrCash.getChargingAmount() <= 2000000) {
-            this.cash += usrCash.getChargingAmount();
-            usrCashes.add(usrCash);
-            usrCash.setUsr(this);
-            return true;
-        } else {
-            return false;
-        }
+    public void addUsrCash(UsrCash usrCash) {
+        usrCashes.add(usrCash);
+        usrCash.setUsr(this);
     }
 
     public void updateCash(Integer cash) {

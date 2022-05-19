@@ -1,6 +1,7 @@
 package com.devteam.marketing.domain.usr.cash.dto;
 
 import com.devteam.marketing.domain.BaseDto;
+import com.devteam.marketing.domain.logs.usr.cash.dto.UsrCashLogDto;
 import com.devteam.marketing.domain.usr.cash.entity.CashType;
 import com.devteam.marketing.domain.usr.cash.entity.UsrCash;
 import com.devteam.marketing.domain.usr.cash.mapper.UsrCashMapper;
@@ -65,7 +66,13 @@ public class UsrCashDto extends BaseDto {
 
     }
 
+    @Builder @Getter @Setter
+    public static class UsrAndUsrCashLog {
 
+        private UsrDto.Simple usr;
 
+        private UsrCashLogDto.Simple usrCashLog;
+
+    }
 
 }

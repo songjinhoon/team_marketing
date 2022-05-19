@@ -2,6 +2,9 @@ package com.devteam.marketing.domain.logs.usr.cash.dto;
 
 import com.devteam.marketing.domain.BaseDto;
 import com.devteam.marketing.domain.logs.usr.cash.entity.OccurType;
+import com.devteam.marketing.domain.logs.usr.cash.entity.UsrCashLog;
+import com.devteam.marketing.domain.logs.usr.cash.mapper.UsrCashLogMapper;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,8 +27,10 @@ public class UsrCashLogDto extends BaseDto {
 
     private Integer occurCash;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime occurStartTime;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime occurFinishTime;
 
     private Integer sumCash;
@@ -53,6 +58,14 @@ public class UsrCashLogDto extends BaseDto {
             super.description = description;
         }
         
+    }
+
+    public static class Simple extends UsrCashLogDto {
+
+        public static Simple of(UsrCashLog usrCashLog) {
+            return UsrCashLogMapper.INSTANCE.toSimple(usrCashLog);
+        }
+
     }
 
 }

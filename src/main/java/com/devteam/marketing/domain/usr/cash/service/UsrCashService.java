@@ -8,6 +8,7 @@ import com.devteam.marketing.domain.usr.cash.dto.UsrCashDto;
 import com.devteam.marketing.domain.usr.cash.entity.CashType;
 import com.devteam.marketing.domain.usr.cash.entity.UsrCash;
 import com.devteam.marketing.domain.usr.cash.repository.UsrCashRepository;
+import com.devteam.marketing.domain.usr.root.dto.UsrDto;
 import com.devteam.marketing.domain.usr.root.entity.Usr;
 import com.devteam.marketing.domain.usr.root.repository.UsrRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,62 +43,32 @@ public class UsrCashService {
                     .build();
         }
         final Usr usr = optional.get();
-        final UsrCash usrCash = UsrCash.create(usrCashDto);
-        boolean check = usr.addUsrCash(usrCash);
-        if (!check) {
+        if (usr.getCash() + usrCashDto.getChargingAmount() > 2000000) {
             return UsrCashDto.Error.builder()
                     .message("limit excess error")
                     .build();
         }
 
+        final LocalDateTime nowTime = LocalDateTime.now();
+        /* 캐쉬 충전 API 추가 Process 시작 */
+
+        /* 캐쉬 충전 API 추가 Process 종료*/
+        final UsrCash usrCash = UsrCash.create(usrCashDto);
+        usr.addUsrCash(usrCash);
         em.flush();
 
-        /* 현시점 usr cash 만료 체크 후 재계산 */
-        LocalDateTime nowTime = LocalDateTime.now();
-
-        /* 현시점 남은 충전캐쉬 */
-        Integer chargingCash = usr.getUsrCashes().stream()
-                .filter(data -> data.getCashType().equals(CashType.CHARGING))
-                .filter(data -> nowTime.isBefore(data.getExpiryTime()))
-                .mapToInt(UsrCash::getRemainingAmount)
-                .sum();
-
-        /* 현시점 남은 적립캐쉬 */
-        Integer savingCash = usr.getUsrCashes().stream()
-                .filter(data -> data.getCashType().equals(CashType.SAVING))
-                .filter(data -> nowTime.isBefore(data.getExpiryTime()))
-                .mapToInt(UsrCash::getRemainingAmount)
-                .sum();
-        Integer sumCash = chargingCash + savingCash;
-        usr.updateCash(sumCash);
-
-        /* USR_CASH_LOG SAVE */
-        final UsrCashLog usrCashLog = UsrCashLog.create(UsrCashLogDto.Insert.builder()
-                .usrId(usrCashDto.getUsrId())
-                .orderNum("" + usrCashDto.getUsrId() + usrCash.getId() + System.currentTimeMillis())
-                .occurType(usrCashDto.getCashType().equals(CashType.CHARGING) ? OccurType.CHARGING_COMPLETE : OccurType.SAVING_COMPLETE)
-                .occurCash(usrCashDto.getChargingAmount())
-                .occurStartTime(usrCash.getRgsDt())
-                .occurFinishTime(usrCash.getRgsDt()) // 환불같은거는 처리기간 고려해야될듯?
-                .sumCash(sumCash)
-                .chargingCash(chargingCash)
-                .savingCash(savingCash)
-                .description("캐쉬구매")
-                .build());
-
-        usrCashLogRepository.save(usrCashLog);
+        final UsrCashLogDto.Simple usrCashLogDto = this.usrCashUpdate(usrCashDto.getUsrId(), nowTime, usrCashDto.getCashType().equals(CashType.CHARGING) ? OccurType.CHARGING_COMPLETE : OccurType.SAVING_COMPLETE, usrCashDto.getChargingAmount());
 
         return UsrCashDto.Detail.of(usrCash);
     }
 
-    public UsrCashDto update(UsrCashDto.Update usrCashDto) {
+    public Object update(UsrCashDto.Update usrCashDto) {
         final Optional<Usr> optional = usrRepository.findById(usrCashDto.getUsrId());
         if (optional.isEmpty()) {
             return UsrCashDto.Error.builder()
                     .message("data not found error")
                     .build();
         }
-
         final Usr usr = optional.get();
         if (usr.getCash() < usrCashDto.getCash()) {
             return UsrCashDto.Error.builder()
@@ -114,50 +85,87 @@ public class UsrCashService {
                 .sorted(Comparator.comparing(UsrCash::getExpiryTime)) // 만료일 가까운순 정렬
                 .collect(Collectors.toList());
         Integer sum = 0;
-        boolean check = false;
-        for (int i=0; i<chargingUsrCash.size(); i++) {
+        boolean check = true;
+        for (UsrCash usrCash : chargingUsrCash) {
             Integer prevSum = sum;
-            sum += chargingUsrCash.get(i).getRemainingAmount();
+            sum += usrCash.getRemainingAmount();
             if (sum < usrCashDto.getCash()) { // 10000원을 사용해야한다면
-                chargingUsrCash.get(i).updateRemainingAmount(0);
+                usrCash.updateRemainingAmount(0);
             } else {
-                check = true;
-                usr.updateCash(usr.getCash() - usrCashDto.getCash());
+                check = false;
                 if (sum.equals(usrCashDto.getCash())) {
-                    chargingUsrCash.get(i).updateRemainingAmount(0);
+                    usrCash.updateRemainingAmount(0);
                 } else { // 10000원을 사용해야하는데 sum이 12000원이 되버림 마지막섬이 9000원이야
                     Integer needCash = usrCashDto.getCash() - prevSum;
-                    chargingUsrCash.get(i).updateRemainingAmount(chargingUsrCash.get(i).getRemainingAmount() - needCash);
+                    usrCash.updateRemainingAmount(usrCash.getRemainingAmount() - needCash);
                 }
+                break;
             }
         }
         if (check) { // 충전캐쉬가 부족해서 적립캐쉬활용할경우
             final List<UsrCash> savingUsrCash = usrCashes.stream()
                     .filter(data -> data.getCashType().equals(CashType.SAVING))
-                    .sorted(Comparator.comparing(UsrCash::getExpiryTime)) // 만료일 가까운순 정렬
+                    .sorted(Comparator.comparing(UsrCash::getExpiryTime))
                     .collect(Collectors.toList());
-            for (int i=0; i<savingUsrCash.size(); i++) {
+            for (UsrCash usrCash : savingUsrCash) {
                 Integer prevSum = sum;
-                sum += savingUsrCash.get(i).getRemainingAmount();
+                sum += usrCash.getRemainingAmount();
                 if (sum < usrCashDto.getCash()) {
-                    savingUsrCash.get(i).updateRemainingAmount(0);
+                    usrCash.updateRemainingAmount(0);
                 } else {
-                    usr.updateCash(usr.getCash() - usrCashDto.getCash());
                     if (sum.equals(usrCashDto.getCash())) {
-                        savingUsrCash.get(i).updateRemainingAmount(0);
+                        usrCash.updateRemainingAmount(0);
                     } else {
                         Integer needCash = usrCashDto.getCash() - prevSum;
-                        savingUsrCash.get(i).updateRemainingAmount(savingUsrCash.get(i).getRemainingAmount() - needCash);
+                        usrCash.updateRemainingAmount(usrCash.getRemainingAmount() - needCash);
                     }
+                    break;
                 }
             }
         }
+        em.flush();
+        final UsrCashLogDto.Simple usrCashLogDto = this.usrCashUpdate(usrCashDto.getUsrId(), nowTime, OccurType.USE_COMPLETE, usrCashDto.getCash());
 
-        /* 캐쉬 사용관련 로그 저장 */
+        return UsrCashDto.UsrAndUsrCashLog.builder()
+                .usr(UsrDto.Simple.of(usr))
+                .usrCashLog(usrCashLogDto)
+                .build();
+    }
 
+    public UsrCashLogDto.Simple usrCashUpdate(Long usrId, LocalDateTime nowTime, OccurType occurType, Integer cash) {
+        final List<UsrCash> usrCashes = usrCashRepository.findDetailByUsrId(usrId);
+        /* 현시점 남은 충전캐쉬 */
+        final Integer chargingCash = usrCashes.stream()
+                .filter(data -> data.getCashType().equals(CashType.CHARGING))
+                .filter(data -> nowTime.isBefore(data.getExpiryTime()))
+                .mapToInt(UsrCash::getRemainingAmount)
+                .sum();
+        /* 현시점 남은 적립캐쉬 */
+        final Integer savingCash = usrCashes.stream()
+                .filter(data -> data.getCashType().equals(CashType.SAVING))
+                .filter(data -> nowTime.isBefore(data.getExpiryTime()))
+                .mapToInt(UsrCash::getRemainingAmount)
+                .sum();
+        /* 현시점 종합캐쉬 */
+        final Integer sumCash = chargingCash + savingCash;
 
+        /* Usr 반영 */
+        usrCashes.get(0).getUsr().updateCash(sumCash);
 
-        return null;
+        /* UsrCashLog 반영 */
+        final UsrCashLog usrCashLog = usrCashLogRepository.save(UsrCashLog.create(UsrCashLogDto.Insert.builder()
+                .usrId(usrId)
+                .orderNum("" + usrId + System.currentTimeMillis())
+                .occurType(occurType)
+                .occurCash(cash)
+                .occurStartTime(nowTime)
+                .occurFinishTime(nowTime) // 환불같은거는 처리기간 고려해야될듯?
+                .sumCash(sumCash)
+                .chargingCash(chargingCash)
+                .savingCash(savingCash)
+                .description(occurType.getValue())
+                .build()));
+        return UsrCashLogDto.Simple.of(usrCashLog);
     }
 
 }
