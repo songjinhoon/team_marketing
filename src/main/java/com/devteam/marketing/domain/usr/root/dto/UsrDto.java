@@ -6,6 +6,7 @@ import com.devteam.marketing.domain.usr.agree.entity.UsrAgree;
 import com.devteam.marketing.domain.usr.root.entity.Social;
 import com.devteam.marketing.domain.usr.root.entity.Usr;
 import com.devteam.marketing.domain.usr.root.mapper.UsrMapper;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 @Getter @Setter
 public class UsrDto extends BaseDto {
 
+    @ApiModelProperty(example = "1")
     private Long id;
 
     @Enumerated(EnumType.STRING)
@@ -72,15 +74,15 @@ public class UsrDto extends BaseDto {
             return new WithAgree();
         }
 
-
-
     }
 
     @Getter @Setter
     public static class Mail {
 
+        @ApiModelProperty(example = "q1jliauc2812315o@naver.com")
         private String email;
 
+        @ApiModelProperty(example = "http://www.naver.com")
         private String link;
 
     }

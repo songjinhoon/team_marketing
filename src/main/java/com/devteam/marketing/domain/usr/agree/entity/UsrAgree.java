@@ -29,7 +29,7 @@ public class UsrAgree extends BaseEntity {
 
     private Boolean agreeYn;
 
-    public static UsrAgree create(UsrAgreeDto.Insert usrAgreeDto) {
+    public static UsrAgree create(UsrAgreeDto.Save usrAgreeDto) {
         return UsrAgree.builder()
                 .usr(usrAgreeDto.getUsr())
                 .agree(usrAgreeDto.getAgree())

@@ -2,6 +2,7 @@ package com.devteam.marketing.domain.usr.root.service;
 
 import com.devteam.marketing.domain.agree.entity.Agree;
 import com.devteam.marketing.domain.agree.repository.AgreeRepository;
+import com.devteam.marketing.domain.usr.agree.dto.UsrAgreeDto;
 import com.devteam.marketing.domain.usr.agree.entity.UsrAgree;
 import com.devteam.marketing.domain.usr.agree.repository.UsrAgreeRepository;
 import com.devteam.marketing.domain.usr.root.dto.UsrDto;
@@ -52,12 +53,14 @@ public class UsrService {
         final Usr usr = usrRepository.save(Usr.create(usrDto));
         final List<Agree> agrees = agreeRepository.findAll();
         usrDto.getUsrAgrees().forEach(usrAgreeDto -> {
-            usrAgreeDto.setUsr(usr);
-            usrAgreeDto.setAgree(agrees.stream()
-                    .filter(agree -> agree.getId().equals(usrAgreeDto.getAgreeId()))
-                    .findFirst()
-                    .orElseThrow(NoSuchElementException::new));
-            final UsrAgree usrAgree = usrAgreeRepository.save(UsrAgree.create(usrAgreeDto));
+            final UsrAgree usrAgree = usrAgreeRepository.save(UsrAgree.create(UsrAgreeDto.Save.builder()
+                    .usr(usr)
+                    .agree(agrees.stream()
+                            .filter(agree -> agree.getId().equals(usrAgreeDto.getAgreeId()))
+                            .findFirst()
+                            .orElseThrow(NoSuchElementException::new))
+                    .agreeYn(usrAgreeDto.getAgreeYn())
+                    .build()));
             usrAgrees.add(usrAgree);
         });
         return UsrDto.WithAgree.of(usrAgrees.get(0).getUsr(), usrAgrees);

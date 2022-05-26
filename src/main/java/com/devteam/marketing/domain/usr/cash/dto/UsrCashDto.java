@@ -7,6 +7,7 @@ import com.devteam.marketing.domain.usr.cash.entity.UsrCash;
 import com.devteam.marketing.domain.usr.cash.mapper.UsrCashMapper;
 import com.devteam.marketing.domain.usr.root.dto.UsrDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,21 +19,30 @@ import java.time.LocalDateTime;
 @Getter @Setter
 public class UsrCashDto extends BaseDto {
 
+    @ApiModelProperty(example = "1")
     private Long id;
 
+    @ApiModelProperty(example = "CHARGING")
     @Enumerated(EnumType.STRING)
     private CashType cashType;
 
+    @ApiModelProperty(example = "10000")
     private Integer chargingAmount;
 
+    @ApiModelProperty(example = "10000")
     private Integer remainingAmount;
 
+    @ApiModelProperty(example = "2022-12-01 14:22:30")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime expiryTime;
 
     @Getter @Setter
     public static class Insert extends UsrCashDto {
 
+        @ApiModelProperty(hidden = true)
+        private Long id;
+
+        @ApiModelProperty(example = "1")
         private Long usrId;
 
     }
@@ -40,8 +50,10 @@ public class UsrCashDto extends BaseDto {
     @Getter @Setter
     public static class Update {
 
+        @ApiModelProperty(example = "1")
         private Long usrId;
 
+        @ApiModelProperty(example = "50000")
         private Integer cash;
 
     }
