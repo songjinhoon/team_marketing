@@ -17,7 +17,7 @@ before_install:
   - chmod +x gradlew
 
 before_deploy:
-  - zip - r marketing *
+  - zip -r marketing *
   - mkdir -p deploy
   - mv marketing.zip deploy/marketing.zip
 
