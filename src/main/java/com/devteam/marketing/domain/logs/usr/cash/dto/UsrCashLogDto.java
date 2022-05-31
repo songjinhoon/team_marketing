@@ -20,7 +20,7 @@ public class UsrCashLogDto extends BaseDto {
 
     private Long usrId;
 
-    private String orderNum; /* 규칙이 필요할듯 */
+    private String orderNum;
 
     @Enumerated(EnumType.STRING)
     private OccurType occurType;
