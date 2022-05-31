@@ -1,8 +1,8 @@
 package com.devteam.marketing.domain.usr.cash.entity;
 
-import com.devteam.marketing.domain.BaseEntity;
-import com.devteam.marketing.domain.usr.cash.dto.UsrCashDto;
-import com.devteam.marketing.domain.usr.root.entity.Usr;
+import  com.devteam.marketing.domain.BaseEntity;
+import com.devteam.marketing.domain.usr.cash.dto.UsrCashInsertDto;
+import com.devteam.marketing.domain.usr.entity.Usr;
 import lombok.*;
 
 import javax.persistence.*;
@@ -32,12 +32,12 @@ public class UsrCash extends BaseEntity {
 
     private LocalDateTime expiryTime; // 계산을 프론트에서 해줄지 백에서 해줄지 정의 필요
 
-    public static UsrCash create(UsrCashDto.Insert usrMoneyDto) {
+    public static UsrCash create(UsrCashInsertDto usrCashInsertDto) {
         return UsrCash.builder()
-                .cashType(usrMoneyDto.getCashType())
-                .chargingAmount(usrMoneyDto.getChargingAmount())
-                .remainingAmount(usrMoneyDto.getRemainingAmount())
-                .expiryTime(usrMoneyDto.getExpiryTime())
+                .cashType(usrCashInsertDto.getCashType())
+                .chargingAmount(usrCashInsertDto.getChargingAmount())
+                .remainingAmount(usrCashInsertDto.getRemainingAmount())
+                .expiryTime(usrCashInsertDto.getExpiryTime())
                 .build();
     }
 

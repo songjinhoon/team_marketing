@@ -1,14 +1,14 @@
-package com.devteam.marketing.domain.usr.root.service;
+package com.devteam.marketing.domain.usr.service;
 
 import com.devteam.marketing.domain.agree.entity.Agree;
 import com.devteam.marketing.domain.agree.repository.AgreeRepository;
 import com.devteam.marketing.domain.usr.agree.dto.UsrAgreeDto;
 import com.devteam.marketing.domain.usr.agree.entity.UsrAgree;
 import com.devteam.marketing.domain.usr.agree.repository.UsrAgreeRepository;
-import com.devteam.marketing.domain.usr.root.dto.UsrDto;
-import com.devteam.marketing.domain.usr.root.entity.Social;
-import com.devteam.marketing.domain.usr.root.entity.Usr;
-import com.devteam.marketing.domain.usr.root.repository.UsrRepository;
+import com.devteam.marketing.domain.usr.repository.UsrRepository;
+import com.devteam.marketing.domain.usr.dto.UsrDto;
+import com.devteam.marketing.domain.usr.entity.Social;
+import com.devteam.marketing.domain.usr.entity.Usr;
 import com.devteam.marketing.external.dto.MailDto;
 import com.devteam.marketing.external.service.MailService;
 import lombok.RequiredArgsConstructor;

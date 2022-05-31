@@ -1,7 +1,8 @@
 package com.devteam.marketing.domain.logs.usr.cash.entity;
 
 import com.devteam.marketing.domain.BaseEntity;
-import com.devteam.marketing.domain.logs.usr.cash.dto.UsrCashLogDto;
+import com.devteam.marketing.domain.logs.usr.cash.dto.UsrCashLogInsertDto;
+import com.devteam.marketing.domain.usr.entity.Usr;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,7 +19,9 @@ public class UsrCashLog extends BaseEntity {
     @Column(name = "usr_cash_log_id")
     private Long id;
 
-    private Long usrId;
+    @JoinColumn(name = "usr_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Usr usr;
 
     private String orderNum;
 
@@ -39,18 +42,18 @@ public class UsrCashLog extends BaseEntity {
 
     private String description;
 
-    public static UsrCashLog create(UsrCashLogDto.Insert usrCashLogDto) {
+    public static UsrCashLog create(UsrCashLogInsertDto usrCashLogInsertDto) {
         return UsrCashLog.builder()
-                .usrId(usrCashLogDto.getUsrId())
-                .orderNum(usrCashLogDto.getOrderNum())
-                .occurType(usrCashLogDto.getOccurType())
-                .occurCash(usrCashLogDto.getOccurCash())
-                .occurStartTime(usrCashLogDto.getOccurStartTime())
-                .occurFinishTime(usrCashLogDto.getOccurFinishTime())
-                .sumCash(usrCashLogDto.getSumCash())
-                .chargingCash(usrCashLogDto.getChargingCash())
-                .savingCash(usrCashLogDto.getSavingCash())
-                .description(usrCashLogDto.getDescription())
+                .usr(usrCashLogInsertDto.getUsr())
+                .orderNum(usrCashLogInsertDto.getOrderNum())
+                .occurType(usrCashLogInsertDto.getOccurType())
+                .occurCash(usrCashLogInsertDto.getOccurCash())
+                .occurStartTime(usrCashLogInsertDto.getOccurStartTime())
+                .occurFinishTime(usrCashLogInsertDto.getOccurFinishTime())
+                .sumCash(usrCashLogInsertDto.getSumCash())
+                .chargingCash(usrCashLogInsertDto.getChargingCash())
+                .savingCash(usrCashLogInsertDto.getSavingCash())
+                .description(usrCashLogInsertDto.getDescription())
                 .build();
     }
 

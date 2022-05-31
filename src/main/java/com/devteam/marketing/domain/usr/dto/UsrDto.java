@@ -1,11 +1,11 @@
-package com.devteam.marketing.domain.usr.root.dto;
+package com.devteam.marketing.domain.usr.dto;
 
 import com.devteam.marketing.domain.BaseDto;
 import com.devteam.marketing.domain.usr.agree.dto.UsrAgreeDto;
 import com.devteam.marketing.domain.usr.agree.entity.UsrAgree;
-import com.devteam.marketing.domain.usr.root.entity.Social;
-import com.devteam.marketing.domain.usr.root.entity.Usr;
-import com.devteam.marketing.domain.usr.root.mapper.UsrMapper;
+import com.devteam.marketing.domain.usr.entity.Social;
+import com.devteam.marketing.domain.usr.entity.Usr;
+import com.devteam.marketing.domain.usr.mapper.UsrMapper;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;

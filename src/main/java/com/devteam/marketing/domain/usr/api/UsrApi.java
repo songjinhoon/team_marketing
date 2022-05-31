@@ -1,8 +1,8 @@
-package com.devteam.marketing.domain.usr.root.api;
+package com.devteam.marketing.domain.usr.api;
 
 import com.devteam.marketing.domain.ResponseDto;
-import com.devteam.marketing.domain.usr.root.dto.UsrDto;
-import com.devteam.marketing.domain.usr.root.service.UsrService;
+import com.devteam.marketing.domain.usr.dto.UsrDto;
+import com.devteam.marketing.domain.usr.service.UsrService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

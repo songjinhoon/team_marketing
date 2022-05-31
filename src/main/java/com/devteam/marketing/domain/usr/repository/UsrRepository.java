@@ -1,6 +1,6 @@
-package com.devteam.marketing.domain.usr.root.repository;
+package com.devteam.marketing.domain.usr.repository;
 
-import com.devteam.marketing.domain.usr.root.entity.Usr;
+import com.devteam.marketing.domain.usr.entity.Usr;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

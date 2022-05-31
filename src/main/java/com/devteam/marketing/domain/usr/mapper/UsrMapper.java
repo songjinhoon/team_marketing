@@ -1,7 +1,7 @@
-package com.devteam.marketing.domain.usr.root.mapper;
+package com.devteam.marketing.domain.usr.mapper;
 
-import com.devteam.marketing.domain.usr.root.dto.UsrDto;
-import com.devteam.marketing.domain.usr.root.entity.Usr;
+import com.devteam.marketing.domain.usr.dto.UsrDto;
+import com.devteam.marketing.domain.usr.entity.Usr;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

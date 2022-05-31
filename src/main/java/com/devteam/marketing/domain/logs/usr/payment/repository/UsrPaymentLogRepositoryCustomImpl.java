@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static com.devteam.marketing.domain.logs.usr.payment.entity.QUsrPaymentLog.usrPaymentLog;
-import static com.devteam.marketing.domain.usr.root.entity.QUsr.usr;
+import static com.devteam.marketing.domain.usr.entity.QUsr.usr;
 
 public class UsrPaymentLogRepositoryCustomImpl implements UsrPaymentLogRepositoryCustom {
 
@@ -21,6 +21,7 @@ public class UsrPaymentLogRepositoryCustomImpl implements UsrPaymentLogRepositor
     public List<UsrPaymentLog> findByUsrIdToDetail(Long usrId) {
         return factory.selectFrom(usrPaymentLog)
                 .innerJoin(usrPaymentLog.usr, usr).fetchJoin()
+                .where(usr.id.eq(usrId))
                 .fetch();
     }
 }

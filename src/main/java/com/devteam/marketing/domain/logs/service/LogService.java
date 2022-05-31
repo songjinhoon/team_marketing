@@ -4,7 +4,7 @@ import com.devteam.marketing.domain.logs.usr.payment.dto.UsrPaymentLogDetailDto;
 import com.devteam.marketing.domain.logs.usr.payment.dto.UsrPaymentLogInsertDto;
 import com.devteam.marketing.domain.logs.usr.payment.entity.UsrPaymentLog;
 import com.devteam.marketing.domain.logs.usr.payment.repository.UsrPaymentLogRepository;
-import com.devteam.marketing.domain.usr.root.repository.UsrRepository;
+import com.devteam.marketing.domain.usr.repository.UsrRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +21,11 @@ public class LogService {
 
     private final UsrRepository usrRepository;
 
+    public List<UsrPaymentLogDetailDto> usrPaymentLogFindByUsrId(Long usrId) {
+        final List<UsrPaymentLog> usrPaymentLogs = usrPaymentLogRepository.findByUsrIdToDetail(usrId);
+        return UsrPaymentLogDetailDto.of(usrPaymentLogs);
+    }
+
     public UsrPaymentLogDetailDto usrPaymentSave(UsrPaymentLogInsertDto usrPaymentLogInsertDto) {
         usrPaymentLogInsertDto.init(usrRepository.findById(usrPaymentLogInsertDto.getUsrId())
                 .orElseThrow(NoSuchElementException::new));
@@ -28,8 +33,4 @@ public class LogService {
         return UsrPaymentLogDetailDto.of(usrPaymentLog);
     }
 
-    public List<UsrPaymentLogDetailDto> usrPaymentLogFindByUsrId(Long usrId) {
-        final List<UsrPaymentLog> usrPaymentLogs = usrPaymentLogRepository.findByUsrIdToDetail(usrId);
-        return UsrPaymentLogDetailDto.of(usrPaymentLogs);
-    }
 }

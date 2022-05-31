@@ -1,9 +1,9 @@
-package com.devteam.marketing.domain.usr.root.entity;
+package com.devteam.marketing.domain.usr.entity;
 
 import com.devteam.marketing.domain.BaseEntity;
 import com.devteam.marketing.domain.usr.agree.entity.UsrAgree;
 import com.devteam.marketing.domain.usr.cash.entity.UsrCash;
-import com.devteam.marketing.domain.usr.root.dto.UsrDto;
+import com.devteam.marketing.domain.usr.dto.UsrDto;
 import lombok.*;
 
 import javax.persistence.*;

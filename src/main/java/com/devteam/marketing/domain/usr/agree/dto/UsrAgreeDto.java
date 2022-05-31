@@ -1,11 +1,11 @@
 package com.devteam.marketing.domain.usr.agree.dto;
 
 import com.devteam.marketing.domain.BaseDto;
-import com.devteam.marketing.domain.agree.dto.AgreeDto;
+import com.devteam.marketing.domain.agree.dto.AgreeSimpleDto;
 import com.devteam.marketing.domain.agree.entity.Agree;
 import com.devteam.marketing.domain.usr.agree.entity.UsrAgree;
 import com.devteam.marketing.domain.usr.agree.mapper.UsrAgreeMapper;
-import com.devteam.marketing.domain.usr.root.entity.Usr;
+import com.devteam.marketing.domain.usr.entity.Usr;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
@@ -53,12 +53,12 @@ public class UsrAgreeDto extends BaseDto {
         @ApiModelProperty(example = "유저 아이디")
         private Long usrId;
 
-        private AgreeDto.Simple agree;
+        private AgreeSimpleDto agree;
 
         public static WithAgree of(UsrAgree usrAgree) {
             final WithAgree withAgree = UsrAgreeMapper.INSTANCE.toWithAgree(usrAgree);
             withAgree.setUsrId(usrAgree.getUsr().getId());
-            withAgree.setAgree(AgreeDto.Simple.of(usrAgree.getAgree()));
+            withAgree.setAgree(AgreeSimpleDto.of(usrAgree.getAgree()));
             return withAgree;
         }
 

@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static com.devteam.marketing.domain.usr.cash.entity.QUsrCash.usrCash;
-import static com.devteam.marketing.domain.usr.root.entity.QUsr.usr;
+import static com.devteam.marketing.domain.usr.entity.QUsr.usr;
 
 public class UsrCashRepositoryCustomImpl implements UsrCashRepositoryCustom {
 

@@ -3,7 +3,7 @@ package com.devteam.marketing.domain.logs.usr.payment.entity;
 import com.devteam.marketing.domain.BaseEntity;
 import com.devteam.marketing.domain.logs.usr.cash.entity.OccurType;
 import com.devteam.marketing.domain.logs.usr.payment.dto.UsrPaymentLogInsertDto;
-import com.devteam.marketing.domain.usr.root.entity.Usr;
+import com.devteam.marketing.domain.usr.entity.Usr;
 import lombok.*;
 
 import javax.persistence.*;

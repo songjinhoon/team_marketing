@@ -3,7 +3,7 @@ package com.devteam.marketing.domain.usr.agree.entity;
 import com.devteam.marketing.domain.BaseEntity;
 import com.devteam.marketing.domain.agree.entity.Agree;
 import com.devteam.marketing.domain.usr.agree.dto.UsrAgreeDto;
-import com.devteam.marketing.domain.usr.root.entity.Usr;
+import com.devteam.marketing.domain.usr.entity.Usr;
 import lombok.*;
 
 import javax.persistence.*;
