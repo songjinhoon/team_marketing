@@ -5,6 +5,7 @@ import com.devteam.marketing.domain.logs.usr.cash.entity.OccurType;
 import com.devteam.marketing.domain.logs.usr.payment.entity.UsrPaymentLog;
 import com.devteam.marketing.domain.logs.usr.payment.mapper.UsrPaymentLogDtoMapper;
 import com.devteam.marketing.domain.usr.dto.UsrDto;
+import com.devteam.marketing.domain.usr.dto.UsrSimpleDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +21,7 @@ public class UsrPaymentLogDetailDto extends BaseDto {
 
     private Long id;
 
-    private UsrDto.Simple usr;
+    private UsrSimpleDto usr;
 
     private String orderNum;
 
@@ -41,7 +42,7 @@ public class UsrPaymentLogDetailDto extends BaseDto {
 
     public static UsrPaymentLogDetailDto of(UsrPaymentLog usrPaymentLog) {
         final UsrPaymentLogDetailDto usrPaymentLogDetailDto = UsrPaymentLogDtoMapper.INSTANCE.toUsrPaymentLogDetailDto(usrPaymentLog);
-        usrPaymentLogDetailDto.setUsr(UsrDto.Simple.of(usrPaymentLog.getUsr()));
+        usrPaymentLogDetailDto.setUsr(UsrSimpleDto.of(usrPaymentLog.getUsr()));
         return usrPaymentLogDetailDto;
     }
 

@@ -4,7 +4,7 @@ import com.devteam.marketing.domain.BaseDto;
 import com.devteam.marketing.domain.usr.cash.entity.CashType;
 import com.devteam.marketing.domain.usr.cash.entity.UsrCash;
 import com.devteam.marketing.domain.usr.cash.mapper.UsrCashMapper;
-import com.devteam.marketing.domain.usr.dto.UsrDto;
+import com.devteam.marketing.domain.usr.dto.UsrSimpleDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +18,7 @@ public class UsrCashDetailDto extends BaseDto {
 
     private Long id;
 
-    private UsrDto.Simple usr;
+    private UsrSimpleDto usr;
 
     @Enumerated(EnumType.STRING)
     private CashType cashType;
@@ -32,7 +32,7 @@ public class UsrCashDetailDto extends BaseDto {
 
     public static UsrCashDetailDto of(UsrCash usrCash) {
         final UsrCashDetailDto usrCashDetailDto = UsrCashMapper.INSTANCE.toDetail(usrCash);
-        usrCashDetailDto.setUsr(UsrDto.Simple.of(usrCash.getUsr()));
+        usrCashDetailDto.setUsr(UsrSimpleDto.of(usrCash.getUsr()));
         return usrCashDetailDto;
     }
 

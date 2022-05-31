@@ -4,7 +4,7 @@ import com.devteam.marketing.domain.BaseDto;
 import com.devteam.marketing.domain.logs.usr.cash.entity.OccurType;
 import com.devteam.marketing.domain.logs.usr.cash.entity.UsrCashLog;
 import com.devteam.marketing.domain.logs.usr.cash.mapper.UsrCashLogMapper;
-import com.devteam.marketing.domain.usr.dto.UsrDto;
+import com.devteam.marketing.domain.usr.dto.UsrSimpleDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +18,7 @@ public class UsrCashLogDetailDto extends BaseDto {
 
     private Long id;
 
-    private UsrDto.Simple usr;
+    private UsrSimpleDto usr;
 
     private String orderNum;
 
@@ -43,7 +43,7 @@ public class UsrCashLogDetailDto extends BaseDto {
 
     public static UsrCashLogDetailDto of(UsrCashLog usrCashLog) {
         final UsrCashLogDetailDto usrCashLogDetailDto = UsrCashLogMapper.INSTANCE.toDetail(usrCashLog);
-        usrCashLogDetailDto.setUsr(UsrDto.Simple.of(usrCashLog.getUsr()));
+        usrCashLogDetailDto.setUsr(UsrSimpleDto.of(usrCashLog.getUsr()));
         return usrCashLogDetailDto;
     }
 

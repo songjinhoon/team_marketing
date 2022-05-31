@@ -3,7 +3,7 @@ package com.devteam.marketing.domain.usr.entity;
 import com.devteam.marketing.domain.BaseEntity;
 import com.devteam.marketing.domain.usr.agree.entity.UsrAgree;
 import com.devteam.marketing.domain.usr.cash.entity.UsrCash;
-import com.devteam.marketing.domain.usr.dto.UsrDto;
+import com.devteam.marketing.domain.usr.dto.UsrInsertDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -44,20 +44,16 @@ public class Usr extends BaseEntity {
     @OneToMany(mappedBy = "usr", cascade = CascadeType.ALL)
     private List<UsrCash> usrCashes = new ArrayList<>();
 
-    public static Usr create(UsrDto.Insert usrDto) {
+    public static Usr create(UsrInsertDto usrInsertDto) {
         return Usr.builder()
-                .social(usrDto.getSocial())
-                .email(usrDto.getEmail())
-                .pwd(usrDto.getSocial().equals(Social.NONE) ? null : usrDto.getPwd())
-                .nm(usrDto.getNm())
-                .phNum(usrDto.getPhNum())
-                .useYn(usrDto.getUseYn())
-                .cash(usrDto.getCash())
+                .social(usrInsertDto.getSocial())
+                .email(usrInsertDto.getEmail())
+                .pwd(usrInsertDto.getPwd())
+                .nm(usrInsertDto.getNm())
+                .phNum(usrInsertDto.getEmail())
+                .useYn(usrInsertDto.getUseYn())
+                .cash(usrInsertDto.getCash())
                 .build();
-    }
-
-    public static Usr empty() {
-        return Usr.builder().build();
     }
 
     public void updatePwd (String pwd) {

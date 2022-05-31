@@ -47,25 +47,4 @@ public class UsrAgreeDto extends BaseDto {
 
     }
 
-    @Getter @Setter
-    public static class WithAgree extends UsrAgreeDto {
-
-        @ApiModelProperty(example = "유저 아이디")
-        private Long usrId;
-
-        private AgreeSimpleDto agree;
-
-        public static WithAgree of(UsrAgree usrAgree) {
-            final WithAgree withAgree = UsrAgreeMapper.INSTANCE.toWithAgree(usrAgree);
-            withAgree.setUsrId(usrAgree.getUsr().getId());
-            withAgree.setAgree(AgreeSimpleDto.of(usrAgree.getAgree()));
-            return withAgree;
-        }
-
-        public static List<WithAgree> of(List<UsrAgree> usrAgrees) {
-            return usrAgrees.stream().map(WithAgree::of).collect(Collectors.toList());
-        }
-
-    }
-
 }

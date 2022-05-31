@@ -5,6 +5,8 @@ import com.devteam.marketing.domain.agree.repository.AgreeRepository;
 import com.devteam.marketing.domain.usr.agree.dto.UsrAgreeDto;
 import com.devteam.marketing.domain.usr.agree.entity.UsrAgree;
 import com.devteam.marketing.domain.usr.agree.repository.UsrAgreeRepository;
+import com.devteam.marketing.domain.usr.dto.UsrInsertDto;
+import com.devteam.marketing.domain.usr.dto.UsrSimpleDto;
 import com.devteam.marketing.domain.usr.repository.UsrRepository;
 import com.devteam.marketing.domain.usr.dto.UsrDto;
 import com.devteam.marketing.domain.usr.entity.Social;
@@ -16,7 +18,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -39,31 +40,24 @@ public class UsrService {
 
     private final MailService mailService;
 
-    public List<UsrDto.Simple> findAllToSimple() {
-        return UsrDto.Simple.of(usrRepository.findAll());
+    public List<UsrSimpleDto> findAllToSimple() {
+        return UsrSimpleDto.of(usrRepository.findAll());
     }
 
-    public UsrDto.WithAgree findByIdWithAgree(Long id) {
-        final List<UsrAgree> usrAgrees = usrAgreeRepository.findByUsrIdToDetail(id);
-        return usrAgrees.size() == 0 ? UsrDto.WithAgree.empty() : UsrDto.WithAgree.of(usrAgrees.get(0).getUsr(), usrAgrees);
-    }
-
-    public UsrDto.WithAgree saveWithAgree(UsrDto.Insert usrDto) {
-        final List<UsrAgree> usrAgrees = new ArrayList<>();
-        final Usr usr = usrRepository.save(Usr.create(usrDto));
+    public UsrSimpleDto saveWithAgree(UsrInsertDto usrInsertDto) {
+        final Usr usr = usrRepository.save(Usr.create(usrInsertDto));
         final List<Agree> agrees = agreeRepository.findAll();
-        usrDto.getUsrAgrees().forEach(usrAgreeDto -> {
+        usrInsertDto.getUsrAgrees().forEach(data -> {
             final UsrAgree usrAgree = usrAgreeRepository.save(UsrAgree.create(UsrAgreeDto.Save.builder()
                     .usr(usr)
                     .agree(agrees.stream()
-                            .filter(agree -> agree.getId().equals(usrAgreeDto.getAgreeId()))
+                            .filter(agree -> agree.getId().equals(data.getAgreeId()))
                             .findFirst()
-                            .orElseThrow(NoSuchElementException::new))
-                    .agreeYn(usrAgreeDto.getAgreeYn())
+                            .orElseThrow(() -> new NoSuchElementException("data not found")))
+                    .agreeYn(data.getAgreeYn())
                     .build()));
-            usrAgrees.add(usrAgree);
         });
-        return UsrDto.WithAgree.of(usrAgrees.get(0).getUsr(), usrAgrees);
+        return UsrSimpleDto.of(usr);
     }
 
     public String resetPwdLink(UsrDto.Mail usrDto) {
@@ -83,9 +77,9 @@ public class UsrService {
                 .build());
     }
 
-    public UsrDto update(Long id, UsrDto.Update usrDto) {
-        final Optional<Usr> optional = usrRepository.findById(id);
-        if (optional.isEmpty()) {
+    public UsrSimpleDto update(Long id, UsrDto.Update usrDto) {
+        final Usr usr = usrRepository.findById(id).orElseThrow(() -> new NoSuchElementException("data not found"));
+        /*if (optional.isEmpty()) {
             return UsrDto.Error.builder()
                     .message("data not found error")
                     .build();
@@ -100,10 +94,10 @@ public class UsrService {
             return UsrDto.Error.builder()
                     .message("password mismatch error")
                     .build();
-        }
+        }*/
         usr.updatePwd(usrDto.getNextPwd());
         usr.updateNm(usrDto.getNm());
-        return UsrDto.Simple.of(usr);
+        return UsrSimpleDto.of(usr);
     }
 
 }
