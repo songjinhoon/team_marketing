@@ -36,7 +36,7 @@ deploy:
   - provider: codedeploy
     access_key_id: $AWS_ACCESS_KEY
     secret_access_key: $AWS_SECRET_KEY
-    bucket: ec2-dev-ubuntu-build
+    bucket: ec2-dev-ubuntu-build222
     key: marketing.zip
     bundle_type: zip
     application: ec2-dev-ubuntu
