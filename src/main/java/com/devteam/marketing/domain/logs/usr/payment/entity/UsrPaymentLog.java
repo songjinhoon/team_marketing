@@ -3,6 +3,7 @@ package com.devteam.marketing.domain.logs.usr.payment.entity;
 import com.devteam.marketing.domain.BaseEntity;
 import com.devteam.marketing.domain.logs.usr.cash.entity.OccurType;
 import com.devteam.marketing.domain.logs.usr.payment.dto.UsrPaymentLogInsertDto;
+import com.devteam.marketing.domain.logs.usr.payment.dto.UsrPaymentLogUpdateDto;
 import com.devteam.marketing.domain.usr.entity.Usr;
 import lombok.*;
 
@@ -50,6 +51,11 @@ public class UsrPaymentLog extends BaseEntity {
                 .payTool(usrPaymentLogInsertDto.getPayTool())
                 .description(usrPaymentLogInsertDto.getDescription())
                 .build();
+    }
+
+    public void refundComplete(UsrPaymentLogUpdateDto usrPaymentLogUpdateDto) {
+        this.occurType = usrPaymentLogUpdateDto.getOccurType();
+        this.occurFinishTime = usrPaymentLogUpdateDto.getOccurFinishTime();
     }
 
 }

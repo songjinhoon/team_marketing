@@ -42,7 +42,6 @@ public class UsrCashService {
         if (usr.getCash() + usrCashInsertDto.getChargingAmount() > 2000000) {
             throw new RuntimeException("limit excess");
         }
-
         usrCashInsertDto.init(usr);
         final LocalDateTime nowTime = LocalDateTime.now();
         final UsrCash usrCash = UsrCash.create(usrCashInsertDto);

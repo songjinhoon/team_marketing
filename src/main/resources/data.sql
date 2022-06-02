@@ -4,7 +4,7 @@ insert into usr (social, email, pwd, nm, ph_num, cash, use_yn, rgs_dt, upd_dt) v
 
 insert into agree (text, use_yn, rgs_dt, upd_dt) values ('이용약관 동의', true, now(), now());
 insert into agree (text, use_yn, rgs_dt, upd_dt) values ('개인정보 처리방침동의', true, now(), now());
-insert into agree (text, use_yn, rgs_dt, upd_dt) values ('이용약관 동의', true, now(), now());
+insert into agree (text, use_yn, rgs_dt, upd_dt) values ('이용약관 동의2w512521', true, now(), now());
 
 insert into usr_agree (usr_id, agree_id, agree_yn, rgs_dt, upd_dt ) values (1, 1, true, now(), now());
 insert into usr_agree (usr_id, agree_id, agree_yn, rgs_dt, upd_dt ) values (1, 2, true, now(), now());
@@ -24,3 +24,9 @@ insert into usr_cash_log (usr_id, order_num, occur_type, occur_cash, occur_start
 insert into usr_cash_log (usr_id, order_num, occur_type, occur_cash, occur_start_time, occur_finish_time, sum_cash, charging_cash, saving_cash, description, rgs_dt, upd_dt) values (1, 11000002, 'CHARGING_COMPLETE', 20000, now(), now(), 30000, 30000, 0, '충전완료', now(), now());
 insert into usr_cash_log (usr_id, order_num, occur_type, occur_cash, occur_start_time, occur_finish_time, sum_cash, charging_cash, saving_cash, description, rgs_dt, upd_dt) values (1, 11000003, 'SAVING_COMPLETE', 5000, now(), now(), 35000, 30000, 5000, '적립완료', now(), now());
 insert into usr_cash_log (usr_id, order_num, occur_type, occur_cash, occur_start_time, occur_finish_time, sum_cash, charging_cash, saving_cash, description, rgs_dt, upd_dt) values (1, 11000004, 'USE_COMPLETE', 35000, now(), now(), 0, 0, 0, '사용완료', now(), now());
+
+insert into usr_payment_log (usr_id, order_num, occur_type, occur_pay, occur_start_time, occur_finish_time, pay_tool, description, rgs_dt, upd_dt) values (1, 11000004, 'PAYMENT_COMPLETE', 10000, now(), now(), '신용카드', '원활한 서비스를 제공하겠습니다.', now(), now());
+insert into usr_payment_log (usr_id, order_num, occur_type, occur_pay, occur_start_time, occur_finish_time, pay_tool, description, rgs_dt, upd_dt) values (1, 11000004, 'REFUND_COMPLETE', 10000, now(), now(), '신용카드', '', now(), now());
+insert into usr_payment_log (usr_id, order_num, occur_type, occur_pay, occur_start_time, occur_finish_time, pay_tool, description, rgs_dt, upd_dt) values (1, 11000005, 'PAYMENT_COMPLETE', 15000, now(), now(), '신용카드', '원활한 서비스를 제공하겠습니다.', now(), now());
+insert into usr_payment_log (usr_id, order_num, occur_type, occur_pay, occur_start_time, occur_finish_time, pay_tool, description, rgs_dt, upd_dt) values (1, 11000005, 'REFUND_REQUEST', 15000, now(), null, '신용카드', '', now(), now());
+

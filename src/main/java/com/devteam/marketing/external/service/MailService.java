@@ -18,7 +18,7 @@ public class MailService {
 
     private final JavaMailSender javaMailSender;
 
-    public String send(MailDto mailDto) {
+    public void send(MailDto mailDto) {
         try {
             final MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             final MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
@@ -29,9 +29,7 @@ public class MailService {
             javaMailSender.send(mimeMessage);
         } catch (Exception e) {
             logger.error(e.toString());
-            return "fail";
         }
-        return "success";
     }
 
 }

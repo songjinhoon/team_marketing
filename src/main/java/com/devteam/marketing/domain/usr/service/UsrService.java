@@ -2,13 +2,11 @@ package com.devteam.marketing.domain.usr.service;
 
 import com.devteam.marketing.domain.agree.entity.Agree;
 import com.devteam.marketing.domain.agree.repository.AgreeRepository;
-import com.devteam.marketing.domain.usr.agree.dto.UsrAgreeDto;
+import com.devteam.marketing.domain.usr.agree.dto.UsrAgreeInsertDto;
 import com.devteam.marketing.domain.usr.agree.entity.UsrAgree;
 import com.devteam.marketing.domain.usr.agree.repository.UsrAgreeRepository;
-import com.devteam.marketing.domain.usr.dto.UsrInsertDto;
-import com.devteam.marketing.domain.usr.dto.UsrSimpleDto;
+import com.devteam.marketing.domain.usr.dto.*;
 import com.devteam.marketing.domain.usr.repository.UsrRepository;
-import com.devteam.marketing.domain.usr.dto.UsrDto;
 import com.devteam.marketing.domain.usr.entity.Social;
 import com.devteam.marketing.domain.usr.entity.Usr;
 import com.devteam.marketing.external.dto.MailDto;
@@ -20,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Transactional
 @RequiredArgsConstructor
@@ -45,10 +42,14 @@ public class UsrService {
     }
 
     public UsrSimpleDto saveWithAgree(UsrInsertDto usrInsertDto) {
+        final Usr check = usrRepository.findByEmail(usrInsertDto.getEmail()).orElseGet(Usr::isEmpty);
+        if (check.getId() != null) {
+            throw new RuntimeException("id duplicate error");
+        }
         final Usr usr = usrRepository.save(Usr.create(usrInsertDto));
         final List<Agree> agrees = agreeRepository.findAll();
         usrInsertDto.getUsrAgrees().forEach(data -> {
-            final UsrAgree usrAgree = usrAgreeRepository.save(UsrAgree.create(UsrAgreeDto.Save.builder()
+            final UsrAgree usrAgree = usrAgreeRepository.save(UsrAgree.create(UsrAgreeInsertDto.builder()
                     .usr(usr)
                     .agree(agrees.stream()
                             .filter(agree -> agree.getId().equals(data.getAgreeId()))
@@ -60,43 +61,29 @@ public class UsrService {
         return UsrSimpleDto.of(usr);
     }
 
-    public String resetPwdLink(UsrDto.Mail usrDto) {
-        final Optional<Usr> optional = usrRepository.findByEmail(usrDto.getEmail());
-        if (optional.isEmpty()) {
-            return "계정을 확인해주세요.";
-        }
-        final Usr usr = optional.get();
+    public void resetPwdLink(UsrMailDto usrMailDto) {
+        final Usr usr = usrRepository.findByEmail(usrMailDto.getEmail()).orElseThrow(() -> new NoSuchElementException("data not found"));
         if (!usr.getSocial().equals(Social.NONE)) {
-            return usr.getSocial().getValue() + " 비밀번호 찾기를 이용해주세요.";
+            throw new RuntimeException(usr.getSocial().getValue() + "비밀번호 찾기를 이용해주세요");
         }
-        return mailService.send(MailDto.builder()
-                .to(usrDto.getEmail())
+        mailService.send(MailDto.builder()
+                .to(usrMailDto.getEmail())
                 .from(GOOGLE_ID)
-                .text(usrDto.getLink())
+                .text(usrMailDto.getLink())
                 .subject(SUBJECT)
                 .build());
     }
 
-    public UsrSimpleDto update(Long id, UsrDto.Update usrDto) {
+    public UsrSimpleDto update(Long id, UsrUpdateDto usrUpdateDto) {
         final Usr usr = usrRepository.findById(id).orElseThrow(() -> new NoSuchElementException("data not found"));
-        /*if (optional.isEmpty()) {
-            return UsrDto.Error.builder()
-                    .message("data not found error")
-                    .build();
-        }
-        final Usr usr = optional.get();
         if (!usr.getSocial().equals(Social.NONE)) {
-            return UsrDto.Error.builder()
-                    .message("this account social login error")
-                    .build();
+            throw new RuntimeException("this account social login error");
         }
-        if (!usrDto.getPrevPwd().equals(usr.getPwd())) {
-            return UsrDto.Error.builder()
-                    .message("password mismatch error")
-                    .build();
-        }*/
-        usr.updatePwd(usrDto.getNextPwd());
-        usr.updateNm(usrDto.getNm());
+        if (!usrUpdateDto.getPrevPwd().equals(usr.getPwd())) {
+            throw new RuntimeException("password mismatch error");
+        }
+        usr.updatePwd(usrUpdateDto.getNextPwd());
+        usr.updateNm(usrUpdateDto.getNm());
         return UsrSimpleDto.of(usr);
     }
 

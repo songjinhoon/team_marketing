@@ -12,6 +12,8 @@ import lombok.Setter;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter @Setter
 public class UsrCashLogDetailDto extends BaseDto {
@@ -45,6 +47,10 @@ public class UsrCashLogDetailDto extends BaseDto {
         final UsrCashLogDetailDto usrCashLogDetailDto = UsrCashLogMapper.INSTANCE.toDetail(usrCashLog);
         usrCashLogDetailDto.setUsr(UsrSimpleDto.of(usrCashLog.getUsr()));
         return usrCashLogDetailDto;
+    }
+
+    public static List<UsrCashLogDetailDto> of(List<UsrCashLog> usrCashLogs) {
+        return usrCashLogs.stream().map(UsrCashLogDetailDto::of).collect(Collectors.toList());
     }
 
 }

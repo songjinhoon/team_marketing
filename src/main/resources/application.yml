@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev-personal
+    active: dev
 
   mvc:
     pathmatch:

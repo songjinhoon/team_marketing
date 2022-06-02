@@ -4,7 +4,6 @@ import com.devteam.marketing.domain.BaseDto;
 import com.devteam.marketing.domain.logs.usr.cash.entity.OccurType;
 import com.devteam.marketing.domain.logs.usr.payment.entity.UsrPaymentLog;
 import com.devteam.marketing.domain.logs.usr.payment.mapper.UsrPaymentLogDtoMapper;
-import com.devteam.marketing.domain.usr.dto.UsrDto;
 import com.devteam.marketing.domain.usr.dto.UsrSimpleDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;

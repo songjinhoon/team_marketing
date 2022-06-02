@@ -12,7 +12,7 @@ import java.util.List;
 @Getter @Setter
 public class UsrInsertDto {
 
-    private List<UsrAgreeInsertDto> usrAgrees;
+    private List<UsrAgreeLinkDto> usrAgrees;
 
     @ApiModelProperty(value = "소셜", example = "NONE", required = true)
     @Enumerated(EnumType.STRING)

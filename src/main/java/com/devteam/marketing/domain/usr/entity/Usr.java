@@ -44,6 +44,10 @@ public class Usr extends BaseEntity {
     @OneToMany(mappedBy = "usr", cascade = CascadeType.ALL)
     private List<UsrCash> usrCashes = new ArrayList<>();
 
+    public static Usr isEmpty() {
+        return Usr.builder().build();
+    }
+
     public static Usr create(UsrInsertDto usrInsertDto) {
         return Usr.builder()
                 .social(usrInsertDto.getSocial())

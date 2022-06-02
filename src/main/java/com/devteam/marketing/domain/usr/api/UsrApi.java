@@ -1,9 +1,7 @@
 package com.devteam.marketing.domain.usr.api;
 
 import com.devteam.marketing.domain.ResponseDto;
-import com.devteam.marketing.domain.usr.dto.UsrDto;
-import com.devteam.marketing.domain.usr.dto.UsrInsertDto;
-import com.devteam.marketing.domain.usr.dto.UsrSimpleDto;
+import com.devteam.marketing.domain.usr.dto.*;
 import com.devteam.marketing.domain.usr.service.UsrService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +25,7 @@ public class UsrApi {
                 .build());
     }
 
-    @ApiOperation(value = "사용자/사용자_동의 저장", notes = "사용자와/사용자_동의 데이터를 저장한다.")
+    @ApiOperation(value = "사용자/사용자_동의 저장", notes = "사용자와/사용자_동의 데이터를 저장한다. usrAgrees는 agree 테이블에 존재하는 row 데이터만큼 넣어줘야 한다.")
     @PostMapping(value = "/saveWithAgree")
     private ResponseEntity<ResponseDto<UsrSimpleDto>> saveWithAgree(@RequestBody UsrInsertDto usrInsertDto) {
         return ResponseEntity.ok().body(ResponseDto.<UsrSimpleDto>builder()
@@ -37,20 +35,18 @@ public class UsrApi {
 
     @ApiOperation(value = "비밀번호 재설정 링크 보내기", notes = "유저의 이메일로 비밀번호 재설정 링크를 보내준다.")
     @PostMapping(value = "/resetPwdLink")
-    private ResponseEntity<?> resetPwdLink(@RequestBody UsrDto.Mail usrDto) {
-        final String returnValue = usrService.resetPwdLink(usrDto);
-        return ResponseEntity.ok().body(
-                ResponseDto.builder()
-                        .error(!returnValue.equals("success"))
-                        .message(returnValue.equals("fail") ? "내부 시스템 오류" : returnValue)
-                        .build());
-    }
-
-    @ApiOperation(value = "유저 데이터 수정", notes = "swagger request dto 일치하지 않음")
-    @PutMapping(value = "/update/{id}")
-    public ResponseEntity<ResponseDto<UsrSimpleDto>> update(@PathVariable Long id, @RequestBody UsrDto.Update usrDto) {
-        return ResponseEntity.ok().body(ResponseDto.<UsrSimpleDto>builder()
-                .data(Collections.singletonList(usrService.update(id, usrDto)))
+    private ResponseEntity<ResponseDto<?>> resetPwdLink(@RequestBody UsrMailDto usrMailDto) {
+        usrService.resetPwdLink(usrMailDto);
+        return ResponseEntity.ok().body(ResponseDto.builder()
                 .build());
     }
+
+    @ApiOperation(value = "사용자 수정", notes = "사용자 데이터를 수정한다.")
+    @PutMapping(value = "/update/{id}")
+    public ResponseEntity<ResponseDto<UsrSimpleDto>> update(@PathVariable Long id, @RequestBody UsrUpdateDto usrUpdateDto) {
+        return ResponseEntity.ok().body(ResponseDto.<UsrSimpleDto>builder()
+                .data(Collections.singletonList(usrService.update(id, usrUpdateDto)))
+                .build());
+    }
+
 }

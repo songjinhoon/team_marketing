@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class UsrAgreeInsertDto {
+public class UsrAgreeLinkDto {
 
     @ApiModelProperty(value = "동의_아이디", example = "1", required = true)
     private Long agreeId;

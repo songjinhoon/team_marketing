@@ -20,7 +20,7 @@ public class UsrCashApi {
 
     private final UsrCashService usrCashService;
 
-    @ApiOperation(value = "유저캐쉬 저장", notes = "사용자의 (충전/적립)캐쉬를 저장한다.")
+    @ApiOperation(value = "사용자_캐쉬 저장", notes = "사용자의 (충전/적립)캐쉬 데이터를 저장한다.")
     @PostMapping(value = "/save")
     private ResponseEntity<ResponseDto<UsrCashDetailDto>> save(@RequestBody UsrCashInsertDto usrCashInsertDto) {
         final UsrCashDetailDto usrCashDetailDto = usrCashService.save(usrCashInsertDto);
