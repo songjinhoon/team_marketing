@@ -43,7 +43,8 @@ deploy:
     deployment_group: ec2-linux-group
     region: ap-northeast-2
     wait-until-deployed: true
-
+    on:
+      all_branches: true
 
 notifications:
   email:
