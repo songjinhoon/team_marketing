@@ -25,10 +25,10 @@ WAR_NAME=$(ls -tr $REPOSITORY/*.war | tail -n 1)
 
 echo "> WAR Name: $WAR_NAME"
 
-echo "> $JAR_NAME에 실행권한 추가"
+echo "> $WAR_NAME 실행권한 추가"
 
-chmod +x $JAR_NAME
+chmod +x $WAR_NAME
 
-echo "> $JAR_NAME 실행"
+echo "> $WAR_NAME 실행"
 
 nohup java -jar $REPOSITORY/$WAR_NAME 2>&1 &
