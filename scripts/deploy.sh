@@ -3,11 +3,11 @@ PACKAGE_NAME=marketing
 
 echo "> build file copy"
 
-cp $REPOSITORY/zip/build/libs/*.war $REPOSITORY
+cp $REPOSITORY/zip/*.war $REPOSITORY
 
 echo "> 현재 구동중인 애플리케이션 pid 확인"
 
-CURRENT_PID=$(pgrep -fl ${PACKAGE_NAME} | grep war | awk '${print $1}')
+CURRENT_PID=$(pgrep -fl ${PACKAGE_NAME} | grep war | awk '{print $1}')
 
 echo "현재 구동 중인 애플리케이션 pid : $CURRENT_PID"
 
@@ -21,7 +21,7 @@ fi
 
 echo "> 새 애플리케이션 배포"
 
-WAR_NAME=$(ls -tr $REPOSITORY/*.war | tail -n 1)
+WAR_NAME=$(ls -tr $REPOSITORY/ | grep war | tail -n 1)
 
 echo "> WAR Name: $WAR_NAME"
 
