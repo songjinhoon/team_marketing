@@ -31,4 +31,4 @@ chmod +x $WAR_NAME
 
 echo "> $WAR_NAME 실행"
 
-java -jar $REPOSITORY/$WAR_NAME 2>&1 &
+nohup java -jar $REPOSITORY/$WAR_NAME 2>&1 &
