@@ -50,6 +50,8 @@ deploy:
     on:
       all_branches: true
 
+dep
+
 notifications:
   email:
     recipients:
