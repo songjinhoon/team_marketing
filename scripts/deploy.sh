@@ -25,9 +25,9 @@ WAR_NAME=$(ls -tr $REPOSITORY/ | grep war | tail -n 1)
 
 echo "> WAR Name: $WAR_NAME"
 
-echo "> $WAR_NAME 실행권한 추가"
-
-chmod +x $REPOSITORY/$WAR_NAME
+#echo "> $WAR_NAME 실행권한 추가"
+#
+#chmod +x $REPOSITORY/$WAR_NAME
 
 echo "> $WAR_NAME 실행"
 
