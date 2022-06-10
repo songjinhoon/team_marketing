@@ -13,7 +13,7 @@ plugins {
 }
 
 group = 'com.devteam'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1-SNAPSHOT-'+new Date().format("yyyyMMddHHmmss")
 sourceCompatibility = '11'
 
 configurations {
@@ -34,7 +34,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
-	runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0'
