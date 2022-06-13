@@ -2,6 +2,8 @@ package com.devteam.marketing.domain.coupon.mapper;
 
 import com.devteam.marketing.domain.agree.dto.AgreeSimpleDto;
 import com.devteam.marketing.domain.agree.entity.Agree;
+import com.devteam.marketing.domain.coupon.dto.CouponSimpleDto;
+import com.devteam.marketing.domain.coupon.entity.Coupon;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -10,6 +12,6 @@ public interface CouponMapper {
 
     CouponMapper INSTANCE = Mappers.getMapper(CouponMapper.class);
 
-    AgreeSimpleDto toAgreeSimple(Agree agree);
+    CouponSimpleDto toCouponSimple(Coupon coupon);
 
 }

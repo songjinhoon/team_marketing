@@ -16,7 +16,7 @@ public class Coupon extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "agree_id")
+    @Column(name = "coupon_id")
     private Long id;
 
     private String text;
