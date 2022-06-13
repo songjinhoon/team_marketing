@@ -1,5 +1,6 @@
 spring:
-  profiles:
-    active: dev
+  config:
+    activate:
+      on-profile: real2
 server:
   port: 8082
