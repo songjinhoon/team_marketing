@@ -1,6 +1,6 @@
 spring:
   config:
     activate:
-      on-profile: real1
+      on-profile: dev
 server:
   port: 8081
