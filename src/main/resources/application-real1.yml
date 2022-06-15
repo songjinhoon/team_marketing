@@ -1,5 +1,33 @@
 spring:
-  profiles:
-    include: dev
+  h2:
+    console:
+      enabled: true
+  datasource:
+    hikari:
+      jdbc-url: jdbc:h2:tcp://localhost/~/marketing
+      username: sa
+      password:
+      driver-class-name: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+  sql:
+    init:
+      mode: always
+
 server:
   port: 8081
+  error:
+    include-message: always
+
+logging.level:
+  org.hibernate.SQL: debug
+
+env:
+  google:
+    id: jinhoon0319@gmail.com  #MainConfig usename이랑 일단 일치 ㄱㄱ

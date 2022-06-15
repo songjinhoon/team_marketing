@@ -23,4 +23,4 @@ IDLE_PROFILE=$(find_idle_profile)
 
 echo "> $WAR_NAME profile=$IDLE_PROFILE 로 실행합니다."
 
-nohup java -jar -Dspring.profiles.active=$IDLE_PROFILE $REPOSITORY/$WAR_NAME > $REPOSITORY./nohup.out 2>&1 $
+nohup java -jar -Dspring.profiles.active=$IDLE_PROFILE $REPOSITORY/$WAR_NAME > $REPOSITORY/nohup.out 2>&1 &

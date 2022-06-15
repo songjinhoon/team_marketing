@@ -20,12 +20,12 @@ spring:
     init:
       mode: always
 
-logging.level:
-  org.hibernate.SQL: debug
-
 server:
   error:
     include-message: always
+
+logging.level:
+  org.hibernate.SQL: debug
 
 env:
   google:
