@@ -1,8 +1,8 @@
 package com.devteam.marketing.domain.logs.service;
 
-import com.devteam.marketing.domain.logs.usr.cash.dto.UsrCashLogDetailDto;
+import com.devteam.marketing.domain.logs.usr.cash.dto.UsrCashLogDetailTimeDto;
 import com.devteam.marketing.domain.logs.usr.cash.repository.UsrCashLogRepository;
-import com.devteam.marketing.domain.logs.usr.payment.dto.UsrPaymentLogDetailDto;
+import com.devteam.marketing.domain.logs.usr.payment.dto.UsrPaymentLogDetailTimeDto;
 import com.devteam.marketing.domain.logs.usr.payment.dto.UsrPaymentLogInsertDto;
 import com.devteam.marketing.domain.logs.usr.payment.dto.UsrPaymentLogUpdateDto;
 import com.devteam.marketing.domain.logs.usr.payment.entity.UsrPaymentLog;
@@ -26,25 +26,25 @@ public class LogService {
 
     private final UsrRepository usrRepository;
 
-    public List<UsrCashLogDetailDto> usrCashFindByUsrId(Long usrId) {
-        return UsrCashLogDetailDto.of(usrCashLogRepository.findByUsrIdToDetail(usrId));
+    public List<UsrCashLogDetailTimeDto> usrCashFindByUsrId(Long usrId) {
+        return UsrCashLogDetailTimeDto.of(usrCashLogRepository.findByUsrIdToDetail(usrId));
     }
 
-    public List<UsrPaymentLogDetailDto> usrPaymentLogFindByUsrId(Long usrId) {
-        return UsrPaymentLogDetailDto.of(usrPaymentLogRepository.findByUsrIdToDetail(usrId));
+    public List<UsrPaymentLogDetailTimeDto> usrPaymentLogFindByUsrId(Long usrId) {
+        return UsrPaymentLogDetailTimeDto.of(usrPaymentLogRepository.findByUsrIdToDetail(usrId));
     }
 
-    public UsrPaymentLogDetailDto usrPaymentSave(UsrPaymentLogInsertDto usrPaymentLogInsertDto) {
+    public UsrPaymentLogDetailTimeDto usrPaymentSave(UsrPaymentLogInsertDto usrPaymentLogInsertDto) {
         usrPaymentLogInsertDto.init(usrRepository.findById(usrPaymentLogInsertDto.getUsrId())
                 .orElseThrow(NoSuchElementException::new));
         final UsrPaymentLog usrPaymentLog = usrPaymentLogRepository.save(UsrPaymentLog.create(usrPaymentLogInsertDto));
-        return UsrPaymentLogDetailDto.of(usrPaymentLog);
+        return UsrPaymentLogDetailTimeDto.of(usrPaymentLog);
     }
 
-    public UsrPaymentLogDetailDto usrPaymentUpdate(Long id, UsrPaymentLogUpdateDto usrPaymentLogUpdateDto) {
+    public UsrPaymentLogDetailTimeDto usrPaymentUpdate(Long id, UsrPaymentLogUpdateDto usrPaymentLogUpdateDto) {
         final UsrPaymentLog usrPaymentLog = usrPaymentLogRepository.findById(id).orElseThrow(() -> new NoSuchElementException("data not found"));
         usrPaymentLog.refundComplete(usrPaymentLogUpdateDto);
-        return UsrPaymentLogDetailDto.of(usrPaymentLog);
+        return UsrPaymentLogDetailTimeDto.of(usrPaymentLog);
     }
 
 }

@@ -1,7 +1,7 @@
 package com.devteam.marketing.domain.agree.api;
 
-import com.devteam.marketing.domain.ResponseDto;
-import com.devteam.marketing.domain.agree.dto.AgreeSimpleDto;
+import com.devteam.marketing.common.response.ResponseDto;
+import com.devteam.marketing.domain.agree.dto.AgreeSimpleTimeDto;
 import com.devteam.marketing.domain.agree.service.AgreeService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +19,8 @@ public class AgreeApi {
 
     @ApiOperation(value = "전체 동의 조회", notes = "전체 동의 목록을 조회한다")
     @GetMapping(value = "/findAllToSimple")
-    public ResponseEntity<ResponseDto<AgreeSimpleDto>> findAllToSimple() {
-        return ResponseEntity.ok().body(ResponseDto.<AgreeSimpleDto>builder()
+    public ResponseEntity<ResponseDto> findAllToSimple() {
+        return ResponseEntity.ok().body(ResponseDto.<AgreeSimpleTimeDto>builder()
                 .data(agreeService.findAllToSimple())
                 .build());
     }

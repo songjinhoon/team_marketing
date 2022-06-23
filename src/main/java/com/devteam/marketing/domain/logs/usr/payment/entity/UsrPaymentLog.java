@@ -1,6 +1,6 @@
 package com.devteam.marketing.domain.logs.usr.payment.entity;
 
-import com.devteam.marketing.domain.BaseEntity;
+import com.devteam.marketing.common.entity.BaseTimeEntity;
 import com.devteam.marketing.domain.logs.usr.cash.entity.OccurType;
 import com.devteam.marketing.domain.logs.usr.payment.dto.UsrPaymentLogInsertDto;
 import com.devteam.marketing.domain.logs.usr.payment.dto.UsrPaymentLogUpdateDto;
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder(access = AccessLevel.PROTECTED)
 @Entity @Getter
-public class UsrPaymentLog extends BaseEntity {
+public class UsrPaymentLog extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

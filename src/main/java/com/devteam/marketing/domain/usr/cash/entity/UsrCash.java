@@ -1,7 +1,7 @@
 package com.devteam.marketing.domain.usr.cash.entity;
 
-import  com.devteam.marketing.domain.BaseEntity;
-import com.devteam.marketing.domain.usr.cash.dto.UsrCashInsertDto;
+import com.devteam.marketing.common.entity.BaseTimeEntity;
+import com.devteam.marketing.domain.usr.cash.dto.UsrCashInsertTimeDto;
 import com.devteam.marketing.domain.usr.entity.Usr;
 import lombok.*;
 
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder(access = AccessLevel.PROTECTED)
 @Entity @Getter
-public class UsrCash extends BaseEntity {
+public class UsrCash extends BaseTimeEntity {
 
     @Id
     @Column(name = "usr_cash_id")
@@ -32,7 +32,7 @@ public class UsrCash extends BaseEntity {
 
     private LocalDateTime expiryTime; // 계산을 프론트에서 해줄지 백에서 해줄지 정의 필요
 
-    public static UsrCash create(UsrCashInsertDto usrCashInsertDto) {
+    public static UsrCash create(UsrCashInsertTimeDto usrCashInsertDto) {
         return UsrCash.builder()
                 .cashType(usrCashInsertDto.getCashType())
                 .chargingAmount(usrCashInsertDto.getChargingAmount())

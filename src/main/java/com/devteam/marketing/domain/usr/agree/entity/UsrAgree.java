@@ -1,6 +1,6 @@
 package com.devteam.marketing.domain.usr.agree.entity;
 
-import com.devteam.marketing.domain.BaseEntity;
+import com.devteam.marketing.common.entity.BaseTimeEntity;
 import com.devteam.marketing.domain.agree.entity.Agree;
 import com.devteam.marketing.domain.usr.agree.dto.UsrAgreeInsertDto;
 import com.devteam.marketing.domain.usr.entity.Usr;
@@ -12,7 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity @Getter
-public class UsrAgree extends BaseEntity {
+public class UsrAgree extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

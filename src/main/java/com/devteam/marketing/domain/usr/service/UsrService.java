@@ -37,11 +37,11 @@ public class UsrService {
 
     private final MailService mailService;
 
-    public List<UsrSimpleDto> findAllToSimple() {
-        return UsrSimpleDto.of(usrRepository.findAll());
+    public List<UsrSimpleTimeDto> findAllToSimple() {
+        return UsrSimpleTimeDto.of(usrRepository.findAll());
     }
 
-    public UsrSimpleDto saveWithAgree(UsrInsertDto usrInsertDto) {
+    public UsrSimpleTimeDto saveWithAgree(UsrInsertDto usrInsertDto) {
         final Usr check = usrRepository.findByEmail(usrInsertDto.getEmail()).orElseGet(Usr::isEmpty);
         if (check.getId() != null) {
             throw new RuntimeException("id duplicate error");
@@ -58,7 +58,7 @@ public class UsrService {
                     .agreeYn(data.getAgreeYn())
                     .build()));
         });
-        return UsrSimpleDto.of(usr);
+        return UsrSimpleTimeDto.of(usr);
     }
 
     public void resetPwdLink(UsrMailDto usrMailDto) {
@@ -74,7 +74,7 @@ public class UsrService {
                 .build());
     }
 
-    public UsrSimpleDto update(Long id, UsrUpdateDto usrUpdateDto) {
+    public UsrSimpleTimeDto update(Long id, UsrUpdateDto usrUpdateDto) {
         final Usr usr = usrRepository.findById(id).orElseThrow(() -> new NoSuchElementException("data not found"));
         if (!usr.getSocial().equals(Social.NONE)) {
             throw new RuntimeException("this account social login error");
@@ -84,7 +84,7 @@ public class UsrService {
         }
         usr.updatePwd(usrUpdateDto.getNextPwd());
         usr.updateNm(usrUpdateDto.getNm());
-        return UsrSimpleDto.of(usr);
+        return UsrSimpleTimeDto.of(usr);
     }
 
 }

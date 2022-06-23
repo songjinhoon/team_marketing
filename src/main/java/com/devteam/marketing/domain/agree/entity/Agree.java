@@ -1,6 +1,6 @@
 package com.devteam.marketing.domain.agree.entity;
 
-import com.devteam.marketing.domain.BaseEntity;
+import com.devteam.marketing.common.entity.BaseTimeEntity;
 import com.devteam.marketing.domain.usr.agree.entity.UsrAgree;
 import lombok.*;
 
@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity @Getter
-public class Agree extends BaseEntity {
+public class Agree extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

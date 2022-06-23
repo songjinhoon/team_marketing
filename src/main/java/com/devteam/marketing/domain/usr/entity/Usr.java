@@ -1,6 +1,6 @@
 package com.devteam.marketing.domain.usr.entity;
 
-import com.devteam.marketing.domain.BaseEntity;
+import com.devteam.marketing.common.entity.BaseTimeEntity;
 import com.devteam.marketing.domain.usr.agree.entity.UsrAgree;
 import com.devteam.marketing.domain.usr.cash.entity.UsrCash;
 import com.devteam.marketing.domain.usr.dto.UsrInsertDto;
@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity @Getter
-public class Usr extends BaseEntity {
+public class Usr extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
