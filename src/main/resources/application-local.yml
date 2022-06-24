@@ -20,10 +20,6 @@ spring:
     init:
       mode: always
 
-server:
-  error:
-    include-message: always
-
 logging.level:
   org.hibernate.SQL: debug
 

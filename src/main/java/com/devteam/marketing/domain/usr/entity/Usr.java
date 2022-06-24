@@ -1,8 +1,9 @@
 package com.devteam.marketing.domain.usr.entity;
 
 import com.devteam.marketing.common.entity.BaseTimeEntity;
-import com.devteam.marketing.domain.usr.agree.entity.UsrAgree;
-import com.devteam.marketing.domain.usr.cash.entity.UsrCash;
+import com.devteam.marketing.domain.logs.usr.cash.entity.UsrCashLog;
+import com.devteam.marketing.domain.logs.usr.payment.entity.UsrPaymentLog;
+import com.devteam.marketing.domain.usr.dto.UsrUpdateDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -41,6 +42,12 @@ public class Usr extends BaseTimeEntity {
     @OneToMany(mappedBy = "usr", cascade = CascadeType.ALL)
     private List<UsrCash> usrCashes;
 
+    @OneToMany(mappedBy = "usr", cascade = CascadeType.ALL)
+    private List<UsrCashLog> usrCashLogs;
+
+    @OneToMany(mappedBy = "usr", cascade = CascadeType.ALL)
+    private List<UsrPaymentLog> usrPaymentLogs;
+
     @Builder
     public Usr(Social social, String email, String pwd, String nm, String phNum, Integer cash, Boolean useYn) {
         this.social = social;
@@ -52,14 +59,16 @@ public class Usr extends BaseTimeEntity {
         this.useYn = useYn;
         this.usrCashes = new ArrayList<>();
         this.usrAgrees = new ArrayList<>();
+        this.usrCashLogs = new ArrayList<>();
+        this.usrPaymentLogs = new ArrayList<>();
     }
 
-    public void updatePwd (String pwd) {
-        this.pwd = pwd;
-    }
-
-    public void updateNm (String nm) {
-        this.nm = nm;
+    public void update(UsrUpdateDto usrUpdateDto) {
+        this.nm = usrUpdateDto.getNm();
+        this.pwd = usrUpdateDto.getNextPwd();
+        this.phNum = usrUpdateDto.getNextPwd();
+        this.cash = usrUpdateDto.getCash();
+        this.useYn = usrUpdateDto.getUseYn();
     }
 
     public void addUsrCash(UsrCash usrCash) {

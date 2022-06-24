@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter @Setter
-public class AgreeSimpleTimeDto extends BaseTimeDto {
+public class AgreeSimpleDto extends BaseTimeDto {
 
     private Long id;
 
@@ -18,12 +18,12 @@ public class AgreeSimpleTimeDto extends BaseTimeDto {
 
     private Boolean useYn;
 
-    public static AgreeSimpleTimeDto of(Agree agree) {
+    public static AgreeSimpleDto of(Agree agree) {
         return AgreeMapper.INSTANCE.toAgreeSimple(agree);
     }
 
-    public static List<AgreeSimpleTimeDto> of(List<Agree> agrees) {
-        return agrees.stream().map(AgreeSimpleTimeDto::of).collect(Collectors.toList());
+    public static List<AgreeSimpleDto> of(List<Agree> agrees) {
+        return agrees.stream().map(AgreeSimpleDto::of).collect(Collectors.toList());
     }
 
 }

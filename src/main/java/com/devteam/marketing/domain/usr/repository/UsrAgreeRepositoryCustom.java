@@ -1,6 +1,6 @@
-package com.devteam.marketing.domain.usr.agree.repository;
+package com.devteam.marketing.domain.usr.repository;
 
-import com.devteam.marketing.domain.usr.agree.entity.UsrAgree;
+import com.devteam.marketing.domain.usr.entity.UsrAgree;
 
 import java.util.List;
 

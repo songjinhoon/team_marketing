@@ -1,14 +1,14 @@
-package com.devteam.marketing.domain.usr.agree.repository;
+package com.devteam.marketing.domain.usr.repository;
 
-import com.devteam.marketing.domain.usr.agree.entity.UsrAgree;
+import com.devteam.marketing.domain.usr.entity.UsrAgree;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
 import static com.devteam.marketing.domain.agree.entity.QAgree.agree;
-import static com.devteam.marketing.domain.usr.agree.entity.QUsrAgree.usrAgree;
 import static com.devteam.marketing.domain.usr.entity.QUsr.usr;
+import static com.devteam.marketing.domain.usr.entity.QUsrAgree.usrAgree;
 
 public class UsrAgreeRepositoryCustomImpl implements UsrAgreeRepositoryCustom {
 

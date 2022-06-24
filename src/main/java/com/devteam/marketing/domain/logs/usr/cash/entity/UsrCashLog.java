@@ -1,16 +1,13 @@
 package com.devteam.marketing.domain.logs.usr.cash.entity;
 
 import com.devteam.marketing.common.entity.BaseTimeEntity;
-import com.devteam.marketing.domain.logs.usr.cash.dto.UsrCashLogInsertDto;
 import com.devteam.marketing.domain.usr.entity.Usr;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Builder(access = AccessLevel.PROTECTED)
 @Entity @Getter
 public class UsrCashLog extends BaseTimeEntity {
 
@@ -42,19 +39,18 @@ public class UsrCashLog extends BaseTimeEntity {
 
     private String description;
 
-    public static UsrCashLog create(UsrCashLogInsertDto usrCashLogInsertDto) {
-        return UsrCashLog.builder()
-                .usr(usrCashLogInsertDto.getUsr())
-                .orderNum(usrCashLogInsertDto.getOrderNum())
-                .occurType(usrCashLogInsertDto.getOccurType())
-                .occurCash(usrCashLogInsertDto.getOccurCash())
-                .occurStartTime(usrCashLogInsertDto.getOccurStartTime())
-                .occurFinishTime(usrCashLogInsertDto.getOccurFinishTime())
-                .sumCash(usrCashLogInsertDto.getSumCash())
-                .chargingCash(usrCashLogInsertDto.getChargingCash())
-                .savingCash(usrCashLogInsertDto.getSavingCash())
-                .description(usrCashLogInsertDto.getDescription())
-                .build();
+    @Builder
+    public UsrCashLog(Usr usr, String orderNum, OccurType occurType, Integer occurCash, LocalDateTime occurStartTime, LocalDateTime occurFinishTime, Integer sumCash, Integer chargingCash, Integer savingCash, String description) {
+        this.usr = usr;
+        this.orderNum = orderNum;
+        this.occurType = occurType;
+        this.occurCash = occurCash;
+        this.occurStartTime = occurStartTime;
+        this.occurFinishTime = occurFinishTime;
+        this.sumCash = sumCash;
+        this.chargingCash = chargingCash;
+        this.savingCash = savingCash;
+        this.description = description;
     }
 
 }

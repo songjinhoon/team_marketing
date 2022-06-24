@@ -1,6 +1,6 @@
-package com.devteam.marketing.domain.usr.cash.repository;
+package com.devteam.marketing.domain.usr.repository;
 
-import com.devteam.marketing.domain.usr.cash.entity.UsrCash;
+import com.devteam.marketing.domain.usr.entity.UsrCash;
 
 import java.util.List;
 

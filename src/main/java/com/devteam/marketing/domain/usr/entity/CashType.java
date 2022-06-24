@@ -1,4 +1,4 @@
-package com.devteam.marketing.domain.usr.cash.entity;
+package com.devteam.marketing.domain.usr.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

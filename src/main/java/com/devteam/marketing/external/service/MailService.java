@@ -2,19 +2,17 @@ package com.devteam.marketing.external.service;
 
 import com.devteam.marketing.external.dto.MailDto;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.mail.internet.MimeMessage;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class MailService {
-
-    private final Logger logger =LoggerFactory.getLogger(this.getClass());
 
     private final JavaMailSender javaMailSender;
 
@@ -28,7 +26,7 @@ public class MailService {
             mimeMessageHelper.setSubject(mailDto.getSubject());
             javaMailSender.send(mimeMessage);
         } catch (Exception e) {
-            logger.error(e.toString());
+            log.error("Mail Send Error -> ", e);
         }
     }
 

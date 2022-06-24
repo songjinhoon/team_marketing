@@ -1,27 +1,22 @@
-package com.devteam.marketing.domain.usr.cash.service;
+package com.devteam.marketing.domain.usr.service;
 
-import com.devteam.marketing.domain.logs.usr.cash.dto.UsrCashLogDetailTimeDto;
 import com.devteam.marketing.domain.logs.usr.cash.dto.UsrCashLogInsertDto;
 import com.devteam.marketing.domain.logs.usr.cash.entity.OccurType;
-import com.devteam.marketing.domain.logs.usr.cash.entity.UsrCashLog;
 import com.devteam.marketing.domain.logs.usr.cash.repository.UsrCashLogRepository;
-import com.devteam.marketing.domain.usr.cash.dto.UsrCashDetailTimeDto;
-import com.devteam.marketing.domain.usr.cash.dto.UsrCashInsertTimeDto;
-import com.devteam.marketing.domain.usr.cash.dto.UsrCashUpdateDto;
-import com.devteam.marketing.domain.usr.cash.entity.CashType;
-import com.devteam.marketing.domain.usr.cash.entity.UsrCash;
-import com.devteam.marketing.domain.usr.cash.repository.UsrCashRepository;
+import com.devteam.marketing.domain.usr.dto.UsrCashInsertDto;
+import com.devteam.marketing.domain.usr.dto.UsrCashUpdateDto;
+import com.devteam.marketing.domain.usr.entity.CashType;
+import com.devteam.marketing.domain.usr.entity.UsrCash;
+import com.devteam.marketing.domain.usr.repository.UsrCashRepository;
 import com.devteam.marketing.domain.usr.entity.Usr;
 import com.devteam.marketing.domain.usr.repository.UsrRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Transactional
@@ -35,29 +30,20 @@ public class UsrCashService {
 
     private final UsrCashLogRepository usrCashLogRepository;
 
-    private final EntityManager em;
-
-    public UsrCashDetailTimeDto save(UsrCashInsertTimeDto usrCashInsertDto) {
-        final Usr usr = usrRepository.findById(usrCashInsertDto.getUsrId()).orElseThrow(() -> new NoSuchElementException("data not found"));
+    public void save(UsrCashInsertDto usrCashInsertDto) {
+        final Usr usr = usrRepository.findById(usrCashInsertDto.getUsrId()).orElseThrow(IllegalArgumentException::new);
         if (usr.getCash() + usrCashInsertDto.getChargingAmount() > 2000000) {
-            throw new RuntimeException("limit excess");
+            throw new RuntimeException();
         }
-        usrCashInsertDto.init(usr);
-        final LocalDateTime nowTime = LocalDateTime.now();
-        final UsrCash usrCash = UsrCash.create(usrCashInsertDto);
-        usr.addUsrCash(usrCash);
-        em.flush();
-
-        final UsrCashLogDetailTimeDto usrCashLogDetailDto = this.usrCashUpdate(usrCashInsertDto.getUsrId(), nowTime, usrCashInsertDto.getCashType().equals(CashType.CHARGING) ? OccurType.CHARGING_COMPLETE : OccurType.SAVING_COMPLETE, usrCashInsertDto.getChargingAmount());
-        return UsrCashDetailTimeDto.of(usrCash);
+        usrCashRepository.save(usrCashInsertDto.toEntity(usr));
+        this.usrCashUpdate(usrCashInsertDto.getUsrId(), LocalDateTime.now(), usrCashInsertDto.getCashType().equals(CashType.CHARGING) ? OccurType.CHARGING_COMPLETE : OccurType.SAVING_COMPLETE, usrCashInsertDto.getChargingAmount());
     }
 
-    public UsrCashLogDetailTimeDto update(Long usrId, UsrCashUpdateDto usrCashUpdateDto) {
-        final Usr usr = usrRepository.findById(usrId).orElseThrow(() -> new NoSuchElementException("data not found"));
+    public void update(Long usrId, UsrCashUpdateDto usrCashUpdateDto) {
+        final Usr usr = usrRepository.findById(usrId).orElseThrow(IllegalArgumentException::new);
         if (usr.getCash() < usrCashUpdateDto.getCash()) {
-            throw new RuntimeException("cash lack");
+            throw new RuntimeException();
         }
-
         final LocalDateTime nowTime = LocalDateTime.now();
         final List<UsrCash> usrCashes = usr.getUsrCashes().stream()
                 .filter(data -> nowTime.isBefore(data.getExpiryTime()))
@@ -105,12 +91,10 @@ public class UsrCashService {
                 }
             }
         }
-        em.flush();
-
-        return this.usrCashUpdate(usrId, nowTime, OccurType.USE_COMPLETE, usrCashUpdateDto.getCash());
+        this.usrCashUpdate(usrId, nowTime, OccurType.USE_COMPLETE, usrCashUpdateDto.getCash());
     }
 
-    public UsrCashLogDetailTimeDto usrCashUpdate(Long usrId, LocalDateTime nowTime, OccurType occurType, Integer cash) {
+    public void usrCashUpdate(Long usrId, LocalDateTime nowTime, OccurType occurType, Integer cash) {
         final List<UsrCash> usrCashes = usrCashRepository.findDetailByUsrId(usrId);
         /* 현시점 남은 충전캐쉬 */
         final Integer chargingCash = usrCashes.stream()
@@ -130,7 +114,9 @@ public class UsrCashService {
         /* Usr 반영 */
         usrCashes.get(0).getUsr().updateCash(sumCash);
 
-        final UsrCashLogInsertDto usrCashLogInsertDto = UsrCashLogInsertDto.builder()
+        usrCashLogRepository.save(UsrCashLogInsertDto.builder()
+                .usr(usrCashes.get(0).getUsr())
+                .orderNum(System.currentTimeMillis() + "")
                 .occurType(occurType)
                 .occurCash(cash)
                 .occurStartTime(nowTime)
@@ -139,10 +125,7 @@ public class UsrCashService {
                 .chargingCash(chargingCash)
                 .savingCash(savingCash)
                 .description(occurType.getValue())
-                .build();
-        usrCashLogInsertDto.init(usrCashes.get(0).getUsr());
-
-        return UsrCashLogDetailTimeDto.of(usrCashLogRepository.save(UsrCashLog.create(usrCashLogInsertDto)));
+                .build().toEntity());
     }
 
 }

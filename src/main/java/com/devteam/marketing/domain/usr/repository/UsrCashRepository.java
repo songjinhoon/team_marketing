@@ -1,9 +1,7 @@
-package com.devteam.marketing.domain.usr.cash.repository;
+package com.devteam.marketing.domain.usr.repository;
 
-import com.devteam.marketing.domain.usr.cash.entity.UsrCash;
+import com.devteam.marketing.domain.usr.entity.UsrCash;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.List;
 
 public interface UsrCashRepository extends JpaRepository<UsrCash, Long>, UsrCashRepositoryCustom {
 }

@@ -1,8 +1,9 @@
-package com.devteam.marketing.domain.usr.cash.dto;
+package com.devteam.marketing.domain.usr.dto;
 
 import com.devteam.marketing.common.dto.BaseTimeDto;
-import com.devteam.marketing.domain.usr.cash.entity.CashType;
+import com.devteam.marketing.domain.usr.entity.CashType;
 import com.devteam.marketing.domain.usr.entity.Usr;
+import com.devteam.marketing.domain.usr.entity.UsrCash;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import javax.persistence.Enumerated;
 import java.time.LocalDateTime;
 
 @Getter @Setter
-public class UsrCashInsertTimeDto extends BaseTimeDto {
+public class UsrCashInsertDto extends BaseTimeDto {
 
     @ApiModelProperty(value = "사용자_아이디", example = "1", required = true)
     private Long usrId;
@@ -32,11 +33,14 @@ public class UsrCashInsertTimeDto extends BaseTimeDto {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime expiryTime;
 
-    @ApiModelProperty(hidden = true)
-    private Usr usr;
-
-    public void init(Usr usr) {
-        this.usr = usr;
+    public UsrCash toEntity(Usr usr) {
+        return UsrCash.builder()
+                .usr(usr)
+                .cashType(this.cashType)
+                .chargingAmount(this.chargingAmount)
+                .remainingAmount(this.remainingAmount)
+                .expiryTime(this.expiryTime)
+                .build();
     }
 
 }

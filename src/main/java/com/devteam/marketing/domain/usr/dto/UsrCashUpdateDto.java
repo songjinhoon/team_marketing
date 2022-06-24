@@ -1,4 +1,4 @@
-package com.devteam.marketing.domain.usr.cash.dto;
+package com.devteam.marketing.domain.usr.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;

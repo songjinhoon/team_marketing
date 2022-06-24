@@ -5,8 +5,7 @@ import org.springframework.http.HttpStatus;
 
 import java.util.HashMap;
 
-@Getter
-@Builder
+@Getter @Builder
 public class ResponseDto {
 
     @Builder.Default
