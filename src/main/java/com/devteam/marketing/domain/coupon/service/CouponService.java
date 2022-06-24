@@ -1,7 +1,5 @@
 package com.devteam.marketing.domain.coupon.service;
 
-import com.devteam.marketing.domain.agree.dto.AgreeSimpleDto;
-import com.devteam.marketing.domain.agree.repository.AgreeRepository;
 import com.devteam.marketing.domain.coupon.dto.CouponSimpleDto;
 import com.devteam.marketing.domain.coupon.repository.CouponRepository;
 import lombok.RequiredArgsConstructor;

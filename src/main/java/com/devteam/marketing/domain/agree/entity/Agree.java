@@ -8,8 +8,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Builder(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity @Getter
 public class Agree extends BaseTimeEntity {
@@ -25,5 +23,10 @@ public class Agree extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "agree", cascade = CascadeType.ALL)
     private List<UsrAgree> usrAgrees = new ArrayList<>();
+
+    public void addUsrAgree(UsrAgree usrAgree) {
+        usrAgrees.add(usrAgree);
+        usrAgree.setAgree(this);
+    }
 
 }

@@ -1,9 +1,6 @@
 package com.devteam.marketing.domain.coupon.api;
 
-import com.devteam.marketing.domain.ResponseDto;
-import com.devteam.marketing.domain.agree.dto.AgreeSimpleDto;
-import com.devteam.marketing.domain.agree.service.AgreeService;
-import com.devteam.marketing.domain.coupon.dto.CouponSimpleDto;
+import com.devteam.marketing.common.response.ResponseDto;
 import com.devteam.marketing.domain.coupon.service.CouponService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +18,8 @@ public class CouponApi {
 
     @ApiOperation(value = "전체 동의 조회", notes = "전체 동의 목록을 조회한다")
     @GetMapping(value = "/findAllToSimple")
-    public ResponseEntity<ResponseDto<CouponSimpleDto>> findAllToSimple() {
-        return ResponseEntity.ok().body(ResponseDto.<CouponSimpleDto>builder()
+    public ResponseEntity<ResponseDto> findAllToSimple() {
+        return ResponseEntity.ok().body(ResponseDto.builder()
                 .data(couponService.findAllToSimple())
                 .build());
     }

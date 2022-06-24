@@ -1,21 +1,16 @@
 package com.devteam.marketing.domain.coupon.dto;
 
-import com.devteam.marketing.domain.BaseDto;
-import com.devteam.marketing.domain.coupon.entity.Coupon;
-import com.devteam.marketing.domain.coupon.mapper.CouponMapper;
+import com.devteam.marketing.common.dto.BaseTimeDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CouponCreateRequestDto extends BaseDto {
+public class CouponCreateRequestDto extends BaseTimeDto {
 
     @Size(min = 1, max = 100)
     @NotBlank

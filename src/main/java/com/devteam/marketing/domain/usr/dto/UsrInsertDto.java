@@ -1,6 +1,7 @@
 package com.devteam.marketing.domain.usr.dto;
 
 import com.devteam.marketing.domain.usr.entity.Social;
+import com.devteam.marketing.domain.usr.entity.Usr;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,5 +36,17 @@ public class UsrInsertDto {
 
     @ApiModelProperty(value = "사용_여부", example = "true", required = true)
     private Boolean useYn;
+
+    public Usr toEntity() {
+        return Usr.builder()
+                .social(this.social)
+                .email(this.email)
+                .pwd(this.pwd)
+                .nm(this.nm)
+                .phNum(this.phNum)
+                .cash(this.cash)
+                .useYn(this.useYn)
+                .build();
+    }
 
 }

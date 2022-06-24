@@ -3,15 +3,12 @@ package com.devteam.marketing.domain.usr.entity;
 import com.devteam.marketing.common.entity.BaseTimeEntity;
 import com.devteam.marketing.domain.usr.agree.entity.UsrAgree;
 import com.devteam.marketing.domain.usr.cash.entity.UsrCash;
-import com.devteam.marketing.domain.usr.dto.UsrInsertDto;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Builder(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity @Getter
 public class Usr extends BaseTimeEntity {
@@ -39,25 +36,22 @@ public class Usr extends BaseTimeEntity {
     private Boolean useYn;
 
     @OneToMany(mappedBy = "usr", cascade = CascadeType.ALL)
-    private List<UsrAgree> usrAgrees = new ArrayList<>();
+    private List<UsrAgree> usrAgrees;
 
     @OneToMany(mappedBy = "usr", cascade = CascadeType.ALL)
-    private List<UsrCash> usrCashes = new ArrayList<>();
+    private List<UsrCash> usrCashes;
 
-    public static Usr isEmpty() {
-        return Usr.builder().build();
-    }
-
-    public static Usr create(UsrInsertDto usrInsertDto) {
-        return Usr.builder()
-                .social(usrInsertDto.getSocial())
-                .email(usrInsertDto.getEmail())
-                .pwd(usrInsertDto.getPwd())
-                .nm(usrInsertDto.getNm())
-                .phNum(usrInsertDto.getEmail())
-                .useYn(usrInsertDto.getUseYn())
-                .cash(usrInsertDto.getCash())
-                .build();
+    @Builder
+    public Usr(Social social, String email, String pwd, String nm, String phNum, Integer cash, Boolean useYn) {
+        this.social = social;
+        this.email = email;
+        this.pwd = pwd;
+        this.nm = nm;
+        this.phNum = phNum;
+        this.cash = cash;
+        this.useYn = useYn;
+        this.usrCashes = new ArrayList<>();
+        this.usrAgrees = new ArrayList<>();
     }
 
     public void updatePwd (String pwd) {
@@ -73,13 +67,13 @@ public class Usr extends BaseTimeEntity {
         usrCash.setUsr(this);
     }
 
-    public void updateCash(Integer cash) {
-        this.cash = cash;
-
-    }
-
-    /*public void addUsrAgrees(UsrAgree usrAgree) {
+    public void addUsrAgree(UsrAgree usrAgree) {
         usrAgrees.add(usrAgree);
         usrAgree.setUsr(this);
-    }*/
+    }
+
+    public void updateCash(Integer cash) {
+        this.cash = cash;
+    }
+
 }

@@ -1,6 +1,6 @@
 package com.devteam.marketing.domain.coupon.dto;
 
-import com.devteam.marketing.domain.BaseDto;
+import com.devteam.marketing.common.dto.BaseTimeDto;
 import com.devteam.marketing.domain.coupon.entity.Coupon;
 import com.devteam.marketing.domain.coupon.mapper.CouponMapper;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter @Setter
-public class CouponSimpleDto extends BaseDto {
+public class CouponSimpleDto extends BaseTimeDto {
 
     private Long id;
 

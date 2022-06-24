@@ -2,7 +2,6 @@ package com.devteam.marketing.domain.usr.service;
 
 import com.devteam.marketing.domain.agree.entity.Agree;
 import com.devteam.marketing.domain.agree.repository.AgreeRepository;
-import com.devteam.marketing.domain.usr.agree.dto.UsrAgreeInsertDto;
 import com.devteam.marketing.domain.usr.agree.entity.UsrAgree;
 import com.devteam.marketing.domain.usr.agree.repository.UsrAgreeRepository;
 import com.devteam.marketing.domain.usr.dto.*;
@@ -31,35 +30,35 @@ public class UsrService {
 
     private final UsrRepository usrRepository;
 
-    private final UsrAgreeRepository usrAgreeRepository;
-
     private final AgreeRepository agreeRepository;
+
+    private final UsrAgreeRepository usrAgreeRepository;
 
     private final MailService mailService;
 
-    public List<UsrSimpleTimeDto> findAllToSimple() {
-        return UsrSimpleTimeDto.of(usrRepository.findAll());
+    public UsrSimpleDto saveWithAgree(UsrInsertDto usrInsertDto) {
+        final List<Agree> agrees = agreeRepository.findAll();
+        final Usr usr = usrRepository.save(usrInsertDto.toEntity());
+        usrInsertDto.getUsrAgrees().forEach(usrAgreeLinkDto -> {
+            final Agree agree = agrees.stream()
+                    .filter(data -> data.getId().equals(usrAgreeLinkDto.getAgreeId()))
+                    .findFirst()
+                    .orElseThrow(NoSuchElementException::new);
+            final UsrAgree usrAgree = usrAgreeRepository.save(UsrAgreeInsertDto.builder()
+                    .usr(usr)
+                    .agree(agree)
+                    .agreeYn(usrAgreeLinkDto.getAgreeYn())
+                    .build().toEntity());
+            usr.addUsrAgree(usrAgree);
+            agree.addUsrAgree(usrAgree);
+        });
+        return UsrSimpleDto.of(usr);
     }
 
-    public UsrSimpleTimeDto saveWithAgree(UsrInsertDto usrInsertDto) {
-        final Usr check = usrRepository.findByEmail(usrInsertDto.getEmail()).orElseGet(Usr::isEmpty);
-        if (check.getId() != null) {
-            throw new RuntimeException("id duplicate error");
-        }
-        final Usr usr = usrRepository.save(Usr.create(usrInsertDto));
-        final List<Agree> agrees = agreeRepository.findAll();
-        usrInsertDto.getUsrAgrees().forEach(data -> {
-            final UsrAgree usrAgree = usrAgreeRepository.save(UsrAgree.create(UsrAgreeInsertDto.builder()
-                    .usr(usr)
-                    .agree(agrees.stream()
-                            .filter(agree -> agree.getId().equals(data.getAgreeId()))
-                            .findFirst()
-                            .orElseThrow(() -> new NoSuchElementException("data not found")))
-                    .agreeYn(data.getAgreeYn())
-                    .build()));
-        });
-        return UsrSimpleTimeDto.of(usr);
+    public List<UsrSimpleDto> findAllToSimple() {
+        return UsrSimpleDto.of(usrRepository.findAll());
     }
+
 
     public void resetPwdLink(UsrMailDto usrMailDto) {
         final Usr usr = usrRepository.findByEmail(usrMailDto.getEmail()).orElseThrow(() -> new NoSuchElementException("data not found"));
@@ -74,7 +73,7 @@ public class UsrService {
                 .build());
     }
 
-    public UsrSimpleTimeDto update(Long id, UsrUpdateDto usrUpdateDto) {
+    public UsrSimpleDto update(Long id, UsrUpdateDto usrUpdateDto) {
         final Usr usr = usrRepository.findById(id).orElseThrow(() -> new NoSuchElementException("data not found"));
         if (!usr.getSocial().equals(Social.NONE)) {
             throw new RuntimeException("this account social login error");
@@ -84,7 +83,7 @@ public class UsrService {
         }
         usr.updatePwd(usrUpdateDto.getNextPwd());
         usr.updateNm(usrUpdateDto.getNm());
-        return UsrSimpleTimeDto.of(usr);
+        return UsrSimpleDto.of(usr);
     }
 
 }

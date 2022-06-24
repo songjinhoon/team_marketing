@@ -2,14 +2,11 @@ package com.devteam.marketing.domain.usr.agree.entity;
 
 import com.devteam.marketing.common.entity.BaseTimeEntity;
 import com.devteam.marketing.domain.agree.entity.Agree;
-import com.devteam.marketing.domain.usr.agree.dto.UsrAgreeInsertDto;
 import com.devteam.marketing.domain.usr.entity.Usr;
 import lombok.*;
 
 import javax.persistence.*;
 
-@Builder(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity @Getter
 public class UsrAgree extends BaseTimeEntity {
@@ -29,12 +26,19 @@ public class UsrAgree extends BaseTimeEntity {
 
     private Boolean agreeYn;
 
-    public static UsrAgree create(UsrAgreeInsertDto usrAgreeInsertDto) {
-        return UsrAgree.builder()
-                .usr(usrAgreeInsertDto.getUsr())
-                .agree(usrAgreeInsertDto.getAgree())
-                .agreeYn(usrAgreeInsertDto.getAgreeYn())
-                .build();
+    @Builder
+    public UsrAgree(Usr usr, Agree agree, Boolean agreeYn) {
+        this.usr = usr;
+        this.agree = agree;
+        this.agreeYn = agreeYn;
+    }
+
+    public void setUsr(Usr usr) {
+        this.usr = usr;
+    }
+
+    public void setAgree(Agree agree) {
+        this.agree = agree;
     }
 
 }
