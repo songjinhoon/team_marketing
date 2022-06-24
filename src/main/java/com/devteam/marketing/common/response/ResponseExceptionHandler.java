@@ -5,8 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.NoSuchElementException;
-
 @RestControllerAdvice
 public class ResponseExceptionHandler {
 
@@ -19,7 +17,7 @@ public class ResponseExceptionHandler {
                 .build());
     }
 
-    @ExceptionHandler({IllegalAccessException.class, NoSuchElementException.class})
+    @ExceptionHandler(IllegalAccessException.class)
     public ResponseEntity<ResponseDto> notFoundException(Exception e) {
         e.printStackTrace();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseDto.builder()

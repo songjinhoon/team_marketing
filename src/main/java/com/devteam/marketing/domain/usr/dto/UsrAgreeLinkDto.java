@@ -1,6 +1,6 @@
 package com.devteam.marketing.domain.usr.dto;
 
-import com.devteam.marketing.domain.usr.agree.entity.UsrAgree;
+import com.devteam.marketing.domain.usr.entity.UsrAgree;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;

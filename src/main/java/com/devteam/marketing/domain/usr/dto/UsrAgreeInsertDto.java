@@ -1,7 +1,7 @@
 package com.devteam.marketing.domain.usr.dto;
 
 import com.devteam.marketing.domain.agree.entity.Agree;
-import com.devteam.marketing.domain.usr.agree.entity.UsrAgree;
+import com.devteam.marketing.domain.usr.entity.UsrAgree;
 import com.devteam.marketing.domain.usr.entity.Usr;
 import lombok.Builder;
 import lombok.Getter;

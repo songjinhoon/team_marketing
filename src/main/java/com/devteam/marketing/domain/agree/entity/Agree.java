@@ -1,7 +1,7 @@
 package com.devteam.marketing.domain.agree.entity;
 
 import com.devteam.marketing.common.entity.BaseTimeEntity;
-import com.devteam.marketing.domain.usr.agree.entity.UsrAgree;
+import com.devteam.marketing.domain.usr.entity.UsrAgree;
 import lombok.*;
 
 import javax.persistence.*;
